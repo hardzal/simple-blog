@@ -1,5 +1,5 @@
 <?php
-    include "views/header-white.php";
+    require_once "views/header-white.php";
 ?>
 
 <div class="container mt-5">

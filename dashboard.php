@@ -1,4 +1,4 @@
-<?php include "views/header-white.php"; ?>
+<?php require_once "views/header-white.php"; ?>
 
 <div class="container-fluid">
     <div class="row">

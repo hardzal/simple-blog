@@ -1,5 +1,5 @@
 <?php
-    include "views/header.php";
+    require_once "views/header.php";
 ?>
 
 <div class="head mb-5">
@@ -45,7 +45,7 @@
         <h1 class="font-weight-bold pb-2 mb-5 text-uppercase text-white"><ion-icon name="easel"></ion-icon> Pelatihan</h1>
         <div class="row">
             <div class="col-md-6 m-auto">
-                <div class="img-thumbnail p-3 border-0">
+                <div class="img-thumbnail p-3 border border-dark">
                     <h2 class="font-weight-bold pb-3 mb-4">Web Development</h2>
                     <ion-icon name="checkmark" class="text-success"></ion-icon> HTML, CSS, Javacript <br>
                     <ion-icon name="checkmark" class="text-success"></ion-icon> Bootstrap 4 <br>
@@ -71,7 +71,7 @@
                     <div class="col">
                         <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
                         <p>Ini adalah blog asjdasjd ajsdashdhahsd ahsdhhash hasdhhahsdj</p>
-                        <a href="/itc/blog.php" class="btn btn-primary">Lihat</a>
+                        <a href="blog.php" class="btn btn-primary">Lihat</a>
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                     <div class="col">
                         <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
                         <p>Ini adalah blog asjdasjd ajsdashdhahsd ahsdhhash hasdhhahsdj</p>
-                        <a href="/itc/blog.php" class="btn btn-primary">Lihat</a>
+                        <a href="blog.php" class="btn btn-primary">Lihat</a>
                     </div>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                     <div class="col">
                         <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
                         <p>Ini adalah blog asjdasjd ajsdashdhahsd ahsdhhash hasdhhahsdj</p>
-                        <a href="/itc/blog.php" class="btn btn-primary">Lihat</a>
+                        <a href="blog.php" class="btn btn-primary">Lihat</a>
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
                     <div class="col">
                         <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
                         <p>Ini adalah blog asjdasjd ajsdashdhahsd ahsdhhash hasdhhahsdj</p>
-                        <a href="/itc/blog.php" class="btn btn-primary">Lihat</a>
+                        <a href="blog.php" class="btn btn-primary">Lihat</a>
                     </div>
                 </div>
             </div>
