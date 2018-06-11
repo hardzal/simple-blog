@@ -1,0 +1,31 @@
+@media screen and (max-width:768px) {
+    body {
+        font-size: 90%;
+    }
+    .display-4 {
+        font-size: 260%;
+    }
+    .head div {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .head h3 {
+        font-size: 160%;
+    }
+    .head {
+        background-position: center;
+        background-size: cover;
+    }
+
+    .navbar-dark .navbar-nav .nav-link{
+        border: none;
+    }
+    .navbar-dark .navbar-nav .nav-link:hover {
+        color: greenyellow;
+        border: none;
+    }
+
+    .form {
+        border: none;
+    }
+}
