@@ -12,8 +12,8 @@
                     <a class="nav-item nav-link font-weight-bold" href="login">Login</a>
                     <a class="nav-item nav-link font-weight-bold" href="signup">Sign Up</a>
                 <?php } else { ?>
-                    <a class="nav-item nav-link font-weight-bold" href="&p=post">Dasboard</a>
-                    <a class="nav-item nav-link font-weight-bold" href="&p=logout">Logout</a>
+                    <a class="nav-item nav-link font-weight-bold" href="dashboard&p=post">Dasboard</a>
+                    <a class="nav-item nav-link font-weight-bold" href="dashboard&p=logout">Logout</a>
                 <?php } ?>
                 </div>
             </div>

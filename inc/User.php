@@ -59,13 +59,18 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
             }        
         }
 
-        public function register($username, $password, $email, $nama, $nim, $form_token) {
+        public function register($username, $password, $email, $nim, $nama, $level) {
             $validated = false;
             
-            if(!isset($username, $password, $email, $email, $nim, $form_token)) {
+            $username = filter_input(INPUT_POST, $username, FILTER_SANITIZE_STRING);
+            $email    = filter_input(INPUT_POST, $email, FILTER_VALIDATE_EMAIL);
+            $nim      = filter_input(INPUT_POST, $nim, FILTER_SANITIZE_NUMBER_INT);
+            $nama     = filter_input(INPUT_POST, $nama, FILTER_SANITIZE_STRING);
+            $password = filter_input(INPUT_POST, $password, FILTER_SANITIZE_STRING);
+            $level    = filter_input(INPUT_POST, $level, FILTER_SANITIZE_STRING);
+
+            if(!isset($username, $password, $email, $nama, $nim, $level)) {
                 $message = "Please enter a valid data";
-            } else if ($form_token != $_SESSION['form_token']) {
-                $message = "Invalid form submission";
             }  else if (strlen( $password) > 100 || strlen($password) < 4) {
                 $message = 'Incorrect Length for Password';
             } else if (ctype_alnum($username) != true) {
@@ -75,23 +80,40 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
             }
 
             if($validated == true) {
-
-                $username = filter_input(INPUT_POST, $username, FILTER_SANITIZE_STRING);
-                $email    = filter_input(INPUT_POST, $email, FILTER_VALIDATE_EMAIL);
-                $nim      = filter_input(INPUT_POST, $nim, FILTER_SANITIZE_NUMBER_INT);
-                $nama     = filter_input(INPUT_POST, $nama, FILTER_SANITIZE_STRING);
-
                 $options = [
                     'cost' => 12,
                 ];
-        
                 // Hash the password and set the plaintext variable to a hashed version
                 $password = password_hash($password, PASSWORD_BCRYPT, $options);
                 
-                
+                $query = "SELECT * FROM users WHERE username = :username";
+                $rquery = $this->pdo->prepare($query);
 
+                $rquery->bindParam(':username', $username);
+                $rquery->execute();
+                if($rquery->rowCount() > 0) {
+                    echo $rquery->rowCount();
+                    $message = "This username already exist";
+                } else 
+                {
+                    try { 
+                        $query = "INSERT INTO users VALUES (UUID_SHORT(), ?, ?, ?, ?, ?, ?)";
+                        $rquery = $this->pdo->prepare($query);
+                        $rquery->bindParam(1, $username, PDO::PARAM_STR);
+                        $rquery->bindParam(2, $password, PDO::PARAM_STR);
+                        $rquery->bindParam(3, $email, PDO::PARAM_STR);
+                        $rquery->bindParam(4, $nim, PDO::PARAM_INT);
+                        $rquery->bindParam(5, $nama, PDO::PARAM_STR);
+                        $rquery->bindParam(6, $level, PDO::PARAM_STR);
+                        $rquery->execute();
+                    } catch(PDOException $e) {
+                        echo $e->getMessage()."<br>";
+                        var_dump($this->pdo->errorInfo());
+                        die();
+                    }    
+                    $message = "Your account was successfully created";
+                } 
             }
-
             echo "<script>alert('$message');</script>";
         }
 
