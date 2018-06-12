@@ -15,6 +15,23 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
             }
         }
 
+        public function checkLevel() {
+            if(isset($_SESSION['level'])&&!empty($_SESSION['level'])) {
+                $level = filter_var($_SESSION['level'], FILTER_SANITIZE_STRING);
+                return $level;
+            } else {
+                return false;
+            }
+        }
+
+        public function logout() {
+            echo "<script>alert('Success Logout')</script>";
+            unset($_SESSION['user_id']);
+            unset($_SESSION['level']);
+            session_destroy();
+            header("Location: login");
+        }
+
         public function login($username, $password) {
             $validated = false;
 
@@ -42,6 +59,7 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
                 if($user) {
                     if(sha1($password) == $user['password']) {
                         $_SESSION['user_id'] = $user['id'];
+                        $_SESSION['level'] = $user['level'];
                         $message = "Login Succeed";
                     } else {
                         $message = "Wrong Password";
@@ -92,7 +110,6 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
                 $rquery->bindParam(':username', $username);
                 $rquery->execute();
                 if($rquery->rowCount() > 0) {
-                    echo $rquery->rowCount();
                     $message = "This username already exist";
                 } else 
                 {
@@ -108,7 +125,7 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
                         $rquery->execute();
                     } catch(PDOException $e) {
                         echo $e->getMessage()."<br>";
-                        var_dump($this->pdo->errorInfo());
+                        // var_dump($this->pdo->errorInfo());
                         die();
                     }    
                     $message = "Your account was successfully created";
@@ -117,5 +134,19 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
             echo "<script>alert('$message');</script>";
         }
 
-        
+        public function showAccount() {
+
+        }
+
+        public function updateAccount() {
+
+        }
+
+        public function deleteAccount() {
+
+        }
+
+        public function showActivity() {
+
+        }
     }

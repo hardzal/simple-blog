@@ -2,8 +2,11 @@
     if(!$cekLogin) {
         echo "<script>alert('Anda belum melakukan login!')</script>";
         header("Location: login");
+    } else {
+       if ($user->checkLevel() == 'U') {
+            header("Location: member");
+        } 
     }
-
     require_once "./assets/layout/header-white.php";
 ?>
 
@@ -27,111 +30,27 @@
                 case "post":
         ?>
             <div class="row blog">
+            <?php
+                $data = $post->showPost('post_masters', 'created_at');
+                if(is_array($data)) {
+                    foreach($data as $value) {
+            ?>
                 <div class="col-md-4 mb-5">
                     <div class="img-thumbnail border-0">
                         <div class="row">
-                            <div class="col-md-5 mb-2">
-                                <img src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?cs=srgb&dl=coding-computer-data-577585.jpg&fm=jpg" alt="">
-                            </div>
                             <div class="col">
-                                <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
-                                <p>Ini adalah blog asjdasjd</p>                   
-                                <a href="blog.php" class="btn btn-primary btn-sm">Edit</a>
-                                <a href="blog.php" class="btn btn-danger btn-sm">Hapus</a>  
+                                <h4 class="mb-2 font-weight-bold"><?php echo $value['judul'];?></h4>
+                                <p><?php echo substr($value['isi'], 0, 25);?></p> 
+                                <a href="&id=<?php echo $value['id'];?>" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="&id=<?php echo $value['id'];?>" class="btn btn-danger btn-sm">Hapus</a>  
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-5">
-                    <div class="img-thumbnail border-0">
-                        <div class="row">
-                            <div class="col-md-5 mb-2">
-                                <img src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?cs=srgb&dl=coding-computer-data-577585.jpg&fm=jpg" alt="">
-                            </div>
-                            <div class="col">
-                                <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
-                                <p>Ini adalah blog asjdasjd</p>                   
-                                <a href="blog.php" class="btn btn-primary btn-sm">Edit</a>
-                                <a href="blog.php" class="btn btn-danger btn-sm">Hapus</a>  
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-5">
-                    <div class="img-thumbnail border-0">
-                        <div class="row">
-                            <div class="col-md-5 mb-2">
-                                <img src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?cs=srgb&dl=coding-computer-data-577585.jpg&fm=jpg" alt="">
-                            </div>
-                            <div class="col">
-                                <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
-                                <p>Ini adalah blog asjdasjd</p>                   
-                                <a href="blog.php" class="btn btn-primary btn-sm">Edit</a>
-                                <a href="blog.php" class="btn btn-danger btn-sm">Hapus</a>  
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-5">
-                    <div class="img-thumbnail border-0">
-                        <div class="row">
-                            <div class="col-md-5 mb-2">
-                                <img src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?cs=srgb&dl=coding-computer-data-577585.jpg&fm=jpg" alt="">
-                            </div>
-                            <div class="col">
-                                <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
-                                <p>Ini adalah blog asjdasjd</p>                   
-                                <a href="blog.php" class="btn btn-primary btn-sm">Edit</a>
-                                <a href="blog.php" class="btn btn-danger btn-sm">Hapus</a>  
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-5">
-                    <div class="img-thumbnail border-0">
-                        <div class="row">
-                            <div class="col-md-5 mb-2">
-                                <img src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?cs=srgb&dl=coding-computer-data-577585.jpg&fm=jpg" alt="">
-                            </div>
-                            <div class="col">
-                                <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
-                                <p>Ini adalah blog asjdasjd</p>                   
-                                <a href="blog.php" class="btn btn-primary btn-sm">Edit</a>
-                                <a href="blog.php" class="btn btn-danger btn-sm">Hapus</a>  
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-5">
-                    <div class="img-thumbnail border-0">
-                        <div class="row">
-                            <div class="col-md-5 mb-2">
-                                <img src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?cs=srgb&dl=coding-computer-data-577585.jpg&fm=jpg" alt="">
-                            </div>
-                            <div class="col">
-                                <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
-                                <p>Ini adalah blog asjdasjd</p>                   
-                                <a href="blog.php" class="btn btn-primary btn-sm">Edit</a>
-                                <a href="blog.php" class="btn btn-danger btn-sm">Hapus</a>  
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-5">
-                    <div class="img-thumbnail border-0">
-                        <div class="row">
-                            <div class="col-md-5 mb-2">
-                                <img src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?cs=srgb&dl=coding-computer-data-577585.jpg&fm=jpg" alt="">
-                            </div>
-                            <div class="col">
-                                <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
-                                <p>Ini adalah blog asjdasjd</p>                   
-                                <a href="blog.php" class="btn btn-primary btn-sm">Edit</a>
-                                <a href="blog.php" class="btn btn-danger btn-sm">Hapus</a>  
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <?php 
+                    }
+                }
+            ?>
             </div>
         <?php
                 break;
@@ -139,28 +58,32 @@
         ?>
             <div class="row">
                 <div class="col-md-10 d-block m-auto">
-                    <form>
+                <?php
+                    if(isset($_POST['submit'])) {
+                        $post->addPost($_POST['judul'], $_POST['isi'], $_FILES['img'], 1, $_SESSION['user_id']);
+                    }
+                ?>
+                    <form method="post" action="" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label for="">Judul</label>
-                            <input type="text" class="form-control" placeholder="">
+                            <label for="judul">Judul</label>
+                            <input type="text" class="form-control" placeholder="Judul" name="judul"/>
                         </div>
                         <div class="form-group">
-                            <label for="">Gambar</label>
-                            <input type="file" class="form-control-file" placeholder="">
+                            <label for="gambar">Gambar</label>
+                            <input type="file" class="form-control-file" placeholder="" name="img"/>
                         </div>
                         <div class="form-group">
-                            <label for="">Konten</label>
-                            <textarea name="" id="" class="form-control" rows="15"></textarea>
+                            <label for="konten">Konten</label>
+                            <textarea name="isi" id="konten" class="form-control" rows="15"></textarea>
                         </div>
-                        
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
         <?php
                 break;
                 case "post_update":
-
+                    
                 break;
                 case "post_del":
 
@@ -172,10 +95,7 @@
 
                 break;
                 case "logout":
-                    unset($_SESSION['user_id']);
-                    session_destroy();
-                    echo "<script>alert('Success Logout')</script>";
-                    header("Location: login");
+                    $user->logout();
                 break;
                 default:
                     header("Location: home");

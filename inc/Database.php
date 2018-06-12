@@ -17,7 +17,6 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
                 echo "Error: "> $e->getMessage();
                 die();
             }
-
             return $this->pdo;
         }
 
