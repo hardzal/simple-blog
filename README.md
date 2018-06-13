@@ -17,3 +17,15 @@ Kemudian sebelum import gunakan perintah berikut
 
 Lalu Import Database SQL <em>project_webitc.sql</em> Dalam hal ini kami menggunakan phpmyadmin
 
+----------------------------------------------------------------------------------------------
+Data Untuk Login
+
+Admin
+    email    : admin1@itc.com
+    password : 54321
+    
+    email    : admin2@itc.com
+    password : 12345
+    
+--------------------------------------------------------------------------------------------
+
