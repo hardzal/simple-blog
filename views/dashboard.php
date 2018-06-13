@@ -2,11 +2,10 @@
     if(!$cekLogin) {
         echo "<script>alert('Anda belum melakukan login!')</script>";
         header("Location: login");
-    } else {
-       if ($user->checkLevel() == 'U') {
-            header("Location: member");
-        } 
-    }
+    } 
+    if ($user->checkLevel() == 'U') {
+        header("Location: member");
+    } 
     require_once "./assets/layout/header-white.php";
 ?>
 
@@ -41,8 +40,8 @@
                             <div class="col">
                                 <h4 class="mb-2 font-weight-bold"><?php echo $value['judul'];?></h4>
                                 <p><?php echo substr($value['isi'], 0, 25);?></p> 
-                                <a href="&id=<?php echo $value['id'];?>" class="btn btn-primary btn-sm">Edit</a>
-                                <a href="&id=<?php echo $value['id'];?>" class="btn btn-danger btn-sm">Hapus</a>  
+                                <a href="dashboard&p=post_update&id=<?php echo $value['id'];?>" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="dashboard&p=post_del&id=<?php echo $value['id'];?>" class="btn btn-danger btn-sm" onClick='return confirm("Are you sure delete post?")'>Hapus</a>  
                             </div>
                         </div>
                     </div>
@@ -66,15 +65,15 @@
                     <form method="post" action="" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="judul">Judul</label>
-                            <input type="text" class="form-control" placeholder="Judul" name="judul"/>
+                            <input type="text" class="form-control" placeholder="Judul" name="judul" required/>
                         </div>
                         <div class="form-group">
                             <label for="gambar">Gambar</label>
-                            <input type="file" class="form-control-file" placeholder="" name="img"/>
+                            <input type="file" class="form-control-file" placeholder="" name="img" required/>
                         </div>
                         <div class="form-group">
                             <label for="konten">Konten</label>
-                            <textarea name="isi" id="konten" class="form-control" rows="15"></textarea>
+                            <textarea name="isi" id="konten" class="form-control" rows="15" required></textarea>
                         </div>
                         <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                     </form>
@@ -83,16 +82,63 @@
         <?php
                 break;
                 case "post_update":
-                    
+        ?>
+                <div class="row">
+                <div class="col-md-10 d-block m-auto">
+                <?php
+                    if(isset($_GET['id'])&&!empty($_GET['id'])) {
+                        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+                        $value = $post->selectPost('post_masters', $id);
+
+                        if(isset($_POST['submit'])) {
+                            $post->updatePost($_POST['judul'], $_POST['isi'], $_FILES['img'], 1, $_SESSION['user_id'], 'post_masters', $_GET['id']);
+                        }
+                ?>
+                    <form method="post" action="" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="judul">Judul</label>
+                            <input type="text" class="form-control" placeholder="Judul" name="judul" value="<?php echo $value['judul'];?>" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="gambar">Gambar</label>
+                            <input type="file" class="form-control-file" placeholder="" name="img"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="konten">Konten</label>
+                            <textarea name="isi" id="konten" class="form-control" rows="15" required><?php echo $value['isi'];?></textarea>
+                        </div>
+                        <input type="hidden" value="<?php echo $value['id'];?>" name="id"/>
+                        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                  
+                <?php
+                    } else {
+                        header('Location: dashboard');
+                    }   
+                ?>
+                </div>
+            </div>
+        <?php 
                 break;
                 case "post_del":
+                if(isset($_GET['id'])&&!empty($_GET['id'])) {
+                    $post->deletePost('post_masters', $_GET['id']);
+                } else {
+                    header("Location: dashboard");
+                }
+        ?>
 
+        <?php
                 break;
                 case "member":
+        ?>
 
+        <?php
                 break;
                 case "edit_akun":
+        ?>
 
+        <?php
                 break;
                 case "logout":
                     $user->logout();

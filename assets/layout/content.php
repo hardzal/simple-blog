@@ -60,61 +60,28 @@
 <div class="container pb-5 mb-5 pt-5 blog text-center">
     <h1 class="font-weight-bold pb-2 mb-5 text-uppercase"><ion-icon name="paper"></ion-icon> Blog</h1>
     <div class="row text-left">
-        <div class="col-md-6 mb-3">
-            <div class="img-thumbnail border-0">
-                <div class="row">
-                    <div class="col-md-5 mb-2">
-                        <img src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?cs=srgb&dl=coding-computer-data-577585.jpg&fm=jpg" alt="">
-                    </div>
-                    <div class="col">
-                        <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
-                        <p>Ini adalah blog asjdasjd ajsdashdhahsd ahsdhhash hasdhhahsdj</p>
-                        <a href="/itc/blog.php" class="btn btn-primary">Lihat</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 mb-3">
-            <div class="img-thumbnail border-0">
-                <div class="row">
-                    <div class="col-md-5 mb-2">
-                        <img src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?cs=srgb&dl=coding-computer-data-577585.jpg&fm=jpg" alt="">
-                    </div>
-                    <div class="col">
-                        <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
-                        <p>Ini adalah blog asjdasjd ajsdashdhahsd ahsdhhash hasdhhahsdj</p>
-                        <a href="/itc/blog.php" class="btn btn-primary">Lihat</a>
+        <?php
+                $data = $post->showPost('post_masters', 'created_at');
+                if(is_array($data)) {
+                    foreach($data as $value) {
+            ?>
+                <div class="col-md-4 mb-5">
+                    <div class="img-thumbnail border-0">
+                        <div class="row">
+                            <div class="col-md-5 mb-2">
+                                <img src="<?php echo $post->dir_file_image.$value['img'];?>" alt="<?php echo $value['judul'];?>" title="<?php echo $value['judul'];?>"/>
+                            </div>
+                            <div class="col">
+                                <h4 class="mb-2 font-weight-bold"><?php echo $value['judul'];?></h4>
+                                <p><?php echo substr($value['isi'], 0, 80);?></p> 
+                                <a href="blog?p=post&id=<?php echo $value['id'];?>" class="btn btn-primary">Lihat</a> 
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-6 mb-3">
-            <div class="img-thumbnail border-0">
-                <div class="row">
-                    <div class="col-md-5 mb-2">
-                        <img src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?cs=srgb&dl=coding-computer-data-577585.jpg&fm=jpg" alt="">
-                    </div>
-                    <div class="col">
-                        <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
-                        <p>Ini adalah blog asjdasjd ajsdashdhahsd ahsdhhash hasdhhahsdj</p>
-                        <a href="/itc/blog.php" class="btn btn-primary">Lihat</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 mb-3">
-            <div class="img-thumbnail border-0">
-                <div class="row">
-                    <div class="col-md-5 mb-2">
-                        <img src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?cs=srgb&dl=coding-computer-data-577585.jpg&fm=jpg" alt="">
-                    </div>
-                    <div class="col">
-                        <h4 class="mb-2 font-weight-bold">Judul Blog</h4>
-                        <p>Ini adalah blog asjdasjd ajsdashdhahsd ahsdhhash hasdhhahsdj</p>
-                        <a href="/itc/blog.php" class="btn btn-primary">Lihat</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <?php 
+                    }
+                }
+            ?>
     </div>
 </div>
