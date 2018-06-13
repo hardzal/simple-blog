@@ -78,9 +78,13 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
                 $judul = strip_tags(trim($judul));
                 $isi = trim($isi);
                 $value = $this->selectPost('post_masters', $idPost);
-                if(unlink($this->dir_file_image.$value['img'])) {
+
+                if(is_file($this->dir_file_image.$value['img']) && file_exists($this->dir_file_image.$value['img'])) {
+                    unlink($this->dir_file_image.$value['img']);
+                }
+
+                if(move_uploaded_file($img_tmp, $this->dir_file_image.$img_name)) {
                     try {
-                        move_uploaded_file($img_tmp, $this->dir_file_image.$img_name);
                         $this->pdo->beginTransaction();
                         
                         $query_m = $this->pdo->prepare("UPDATE `post_masters` SET judul= :judul, updated_at=now(), img = :img_name, isi = :isi WHERE id = :idPost");
@@ -108,7 +112,7 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
                         $message = "Error: ". $e->getMessage();
                     }
                 } else {
-                    $message = "Link image undefined";
+                    $message = "Gagal Mengupload Gambar";
                 } 
             } else {
                 $message = "NOTHING!";
