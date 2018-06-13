@@ -1,6 +1,9 @@
 <?php
-define('ACCESS', 1);
+ob_start();
 session_start();
+error_reporting(0);
+
+define('ACCESS', 1);
 
 require_once "inc/Database.php";
 require_once "inc/User.php";
