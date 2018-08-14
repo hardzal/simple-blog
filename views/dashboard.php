@@ -12,8 +12,9 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-2 bg-dark sidebar py-3">
-            <a href="dashboard&p=post" class="btn btn-outline-success btn-block p-2"><ion-icon name="paper"></ion-icon> Blogs</a>
+            <a href="dashboard&p=post" class="btn btn-outline-success btn-block p-2"><ion-icon name="paper"></ion-icon>Posts</a>
             <a href="dashboard&p=post_add" class="btn btn-outline-success btn-block p-2 active"><ion-icon name="create"></ion-icon> Create Post</a>
+            <a href="dashboard&p=post_add" class="btn btn-outline-success btn-block p-2 active"><ion-icon name="create"></ion-icon> Settings</a>
         </div>
         <div class="col-10 p-4">
             <p> Selamat Datang! </p>
@@ -130,14 +131,11 @@
 
         <?php
                 break;
-                case "member":
+                case "settings":
         ?>
-
-        <?php
-                break;
-                case "edit_akun":
-        ?>
-
+                <form method="post" action="">
+                    
+                </form>
         <?php
                 break;
                 case "logout":

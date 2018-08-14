@@ -153,6 +153,7 @@ body {
 
 .form {
     border: solid 1px lightgray;
+    margin-bottom: 50px !important;
 }
 
 footer {

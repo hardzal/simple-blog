@@ -5,25 +5,25 @@ error_reporting(0);
 
 define('ACCESS', 1);
 
-require_once "inc/Database.php";
-require_once "inc/User.php";
-require_once "inc/Post.php";
+require_once __DIR__."/inc/Database.php";
+require_once __DIR__."/inc/User.php";
+require_once __DIR__."/inc/Post.php";
 
 $user = new User();
 $post = new Post();
 
 $cekLogin = $user->isLogin();
 
-require_once "assets/layout/meta.php";
+require_once __DIR__."/assets/layout/meta.php";
 
 $page = isset($_GET['page']) ? $_GET['page'] : "";
 
 if(!empty($page)) {
-    require_once  "views/".$page.".php";
+    require_once  __DIR__."/views/".$page.".php";
 } else {
-    require_once "views/home.php";
+    require_once __DIR__."/views/home.php";
 }
 
-require_once "assets/layout/footer.php"
+require_once __DIR__."/assets/layout/footer.php"
 
 ?>

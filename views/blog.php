@@ -1,4 +1,7 @@
 <?php require_once "./assets/layout/header-white.php";?>
+<?php
+    
+?>
 <div class="container mt-5">
     <div class="row mb-5">
         <div class="col-md-10 d-block m-auto blog">

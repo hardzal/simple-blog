@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.8.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2018 at 07:12 AM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 7.2.5
+-- Generation Time: Aug 14, 2018 at 05:34 AM
+-- Server version: 10.1.33-MariaDB
+-- PHP Version: 7.2.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -71,6 +71,7 @@ INSERT INTO `post_details` (`id`, `id_post`, `id_user`, `id_category`) VALUES
 
 CREATE TABLE `post_masters` (
   `id` int(11) NOT NULL,
+  `id_kategori` int(11) NOT NULL,
   `judul` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -82,9 +83,9 @@ CREATE TABLE `post_masters` (
 -- Dumping data for table `post_masters`
 --
 
-INSERT INTO `post_masters` (`id`, `judul`, `created_at`, `updated_at`, `img`, `isi`) VALUES
-(2, 'Pelatihan Basic Java', '2018-06-13 00:11:06', '2018-06-13 11:46:17', 'Desert.jpg', 'Pelatihan Java kali ini sangat dasar jadi diharapkan yang sudah menguasai dasarnya tidak perlu mengikutinya lagipula bisa dipelajari sendiri kok :D'),
-(4, 'Pelatihan Web Development Menggunakan Laravel + VueJs', '2018-06-13 11:15:39', '2018-06-13 11:44:49', 'Koala.jpg', 'Pada kesempatan kali ini kita akan melaksanakan pelatihan web development, pelatihan ini merupakan pelatihan tahunan jadi yang belum mendapat kesempatan pada pelatihan kali ini bisa mencoba tahun depan, tapi saya sarankan untuk memulai belajar sendiri, karena kemampuan untuk belajar sendiri itu sangat diperlukan sedangkan dalam pelatihan ini kalau kalian tidak mengulik lagi sendiri mungkin tidak bisa explore lagi lebih jauh lagi tentang pemrograman khususnya web development yang sangat cepat perkembangannya.');
+INSERT INTO `post_masters` (`id`, `id_kategori`, `judul`, `created_at`, `updated_at`, `img`, `isi`) VALUES
+(2, 0, 'Pelatihan Basic Java', '2018-06-13 00:11:06', '2018-06-13 11:46:17', 'Desert.jpg', 'Pelatihan Java kali ini sangat dasar jadi diharapkan yang sudah menguasai dasarnya tidak perlu mengikutinya lagipula bisa dipelajari sendiri kok :D'),
+(4, 0, 'Pelatihan Web Development Menggunakan Laravel', '2018-06-13 11:15:39', '2018-08-13 15:10:21', '38168668_1763548250428309_2854038800785473536_o.jpg', 'Pada kesempatan kali ini kita akan melaksanakan pelatihan web development, pelatihan ini merupakan pelatihan tahunan jadi yang belum mendapat kesempatan pada pelatihan kali ini bisa mencoba tahun depan, tapi saya sarankan untuk memulai belajar sendiri, karena kemampuan untuk belajar sendiri itu sangat diperlukan sedangkan dalam pelatihan ini kalau kalian tidak mengulik lagi sendiri mungkin tidak bisa explore lagi lebih jauh lagi tentang pemrograman khususnya web development yang sangat cepat perkembangannya.');
 
 -- --------------------------------------------------------
 
@@ -99,17 +100,18 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `nim` int(10) NOT NULL,
   `nama_lengkap` varchar(255) DEFAULT NULL,
-  `level` char(2) NOT NULL
+  `level` char(2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `email`, `nim`, `nama_lengkap`, `level`) VALUES
-('97704685514784769', 'adminpertama', '348162101fc6f7e624681b7400b085eeac6df7bd', 'admin1@itc.com', 0, 'Admin Mimin', 'A'),
-('97706073980403712', 'general_admin', '8cb2237d0679ca88db6464eac60da96345513964', 'admin2@itc.com', 123170036, 'ADMIN BARU', 'A'),
-('97706073980403713', 'hardzal', '$2y$12$/OVmsPXjZiv101C2NohxqOAAOImvoECBKQ9ydFRO07zUGSU9eHAFK', 'suryadijogja@gmail.com', 1231321321, 'rizal', 'U');
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `nim`, `nama_lengkap`, `level`, `created_at`, `updated_at`) VALUES
+('97797700732321792', 'admin1', '$2y$12$w23awHuMIqiWGghV0r.3/ONiLCZQTNESwNW2q8Xti.BG2b2jD9fOq', 'admin1@itc.com', 0, NULL, 'A', '2018-08-14 01:09:49', '0000-00-00 00:00:00'),
+('97797700732321793', 'member1', '$2y$12$7Cy5zkJAOjpBDWe4NvOO/OYbyTnvuRwYTK9QhqFfKkfYMiQmdcFUa', 'member1@itc.com', 0, NULL, 'U', '2018-08-14 02:43:56', '2018-08-14 02:43:56');
 
 --
 -- Indexes for dumped tables
@@ -137,7 +139,8 @@ ALTER TABLE `post_masters`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`,`email`,`nim`);
 
 --
 -- AUTO_INCREMENT for dumped tables

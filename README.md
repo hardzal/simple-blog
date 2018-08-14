@@ -1,4 +1,8 @@
-# webITC
+
+![Travis (.com) branch](https://img.shields.io/travis/com/hardzal/webITC/master.svg) 
+![Progress status branch](https://img.shields.io/badge/progress-30%25-yellowgreen.svg)
+
+# WebITC
 Website Publikasi Kegiatan Kelompok Studi ITC UPNVYK
 
 Untuk Menggunakan Web Ini silahkan di Download atau jika sudah memiliki git bisa diclone melalui command
@@ -17,19 +21,41 @@ Kemudian sebelum import gunakan perintah berikut
 
 Lalu Import Database SQL <em>project_webitc.sql</em> Dalam hal ini kami menggunakan phpmyadmin
 
-----------------------------------------------------------------------------------------------
+-------------------------------------------------------------------
 Data Untuk Login
 
 Sebagai Admin
 
     email    : admin1@itc.com
-    password : 54321
+    password : 123456
     
-    email    : admin2@itc.com
-    password : 12345
-   
-Sebagai User
+Sebagai Member
 
-    belum ada
---------------------------------------------------------------------------------------------
+    email    : member1@itc.com
+    password : 7654321
+--------------------------------------------------------------------
 
+  # Fitur - Fitur  
+  - [ ] Rewrite in MVC
+  - [ ] CRUD (CREATE, READ, UPDATE, DELETE)
+    - tabel_post 
+        - [x] Menampilkan Postingan Blog
+        - [x] Membuat Postingan Blog
+        - [x] Memperbaharui Postingan Blog
+        - [x] Menghapus Postingan Blog
+    - tabel_user
+        - [ ] Mendaftar akun baru (member)
+        - [x] Masuk sebagai admin
+        - [x] Masuk sebagai member
+        - [ ] Memperbaharui data admin
+        - [ ] Memperbaharui data member
+        - [ ] Menampilkan Member beserta admin (hak akses admin)
+  
+  - [ ] Searching
+  - [ ] Sorting
+  - [ ] Pagination
+  - [ ] Validation
+  - [ ] Authentication
+  - [ ] **
+
+### Last Update [15/8/2018]
