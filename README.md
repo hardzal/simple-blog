@@ -59,4 +59,4 @@ Sebagai Member
 
 ### Last Update [15/8/2018]
 
-### Rewrite to Laravel [click here](https://github.com/hardzal/itc)
+### Rewrite to Laravel [click here](https://github.com/hardzal/itcblog)
