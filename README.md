@@ -2,7 +2,7 @@
 ![Travis (.com) branch](https://img.shields.io/travis/com/hardzal/webITC/master.svg) 
 ![Progress status branch](https://img.shields.io/badge/progress-30%25-yellowgreen.svg)
 
-# WebITC
+# Blog
 Website Publikasi Kegiatan Kelompok Studi ITC UPNVYK
 
 Untuk Menggunakan Web Ini silahkan di Download atau jika sudah memiliki git bisa diclone melalui command
@@ -36,7 +36,6 @@ Sebagai Member
 --------------------------------------------------------------------
 
   # Fitur - Fitur  
-  - [ ] Rewrite in MVC
   - [ ] CRUD (CREATE, READ, UPDATE, DELETE)
     - tabel_post 
         - [x] Menampilkan Postingan Blog
@@ -59,3 +58,5 @@ Sebagai Member
   - [ ] **
 
 ### Last Update [15/8/2018]
+
+`# Rewrite in Laravel (https://github.com/hardzal/itc)[click here]`
