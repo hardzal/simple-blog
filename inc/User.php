@@ -3,7 +3,6 @@ if (!defined('ACCESS')) exit; // direct access doesn't allowed
 
 class User extends Database
 {
-    
     public function __construct()
     {
         parent::__construct();

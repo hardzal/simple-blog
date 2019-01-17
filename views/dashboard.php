@@ -25,7 +25,7 @@
                 $p = "post";
             }
 
-           // $p = filter_var($p, FILTER_SANITIZE_STRING);
+           $p = filter_var($p, FILTER_SANITIZE_STRING);
             switch($p) {
                 case "post":
         ?>
