@@ -6,7 +6,7 @@ Website Publikasi Kegiatan Kelompok Studi ITC UPNVYK
 
 Untuk Menggunakan Web Ini silahkan di Download atau jika sudah memiliki git bisa diclone melalui command
 
-    git clone https://github.com/hardzal/webITC.git
+    git clone https://github.com/hardzal/simple-blog.git
 
 Kemudian letakkan folder tersebut di server lokal kamu.
 
