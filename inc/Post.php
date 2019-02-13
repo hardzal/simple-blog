@@ -53,7 +53,7 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
                     try {
                         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                         $this->pdo->beginTransaction();
-                        $this->pdo->query("INSERT INTO `posts` VALUES('', '$judul', now(), now(), '$img_name', '$isi')");
+                        $this->pdo->query("INSERT INTO `posts` VALUES('', '$author', '$judul', '$img_name', '$isi', now(), now())");
                         $this->pdo->commit();
                         $message = "Post Added!";
                     } catch(PDOException $e) {
@@ -89,22 +89,14 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
             try {
                 $this->pdo->beginTransaction();
                 
-                $query_m = $this->pdo->prepare("UPDATE `post_masters` SET judul= :judul, updated_at=now(), img = :img_name, isi = :isi WHERE id = :idPost");
+                $query_m = $this->pdo->prepare("UPDATE `posts` SET judul= :judul, img = :img_name, isi = :isi, updated_at=now() WHERE id = :idPost");
                 $params = array(
                     ':judul' => $judul,
                     ':img_name' => $img_name,
                     ':isi' => $isi,
                     ':idPost' => $idPost
                 );
-
                 $query_m->execute($params);
-                
-                $query_d = $this->pdo->prepare("UPDATE `post_details` SET id_user = :id_user, id_category = :id_category");
-                
-                $query_d->bindParam(':id_user', $author);
-                $query_d->bindParam(':id_category', $categoy);
-                $query_d->execute();
-
                 $this->pdo->commit();
                 $message = "Post Updated!";
                 header("Location: dashboard");

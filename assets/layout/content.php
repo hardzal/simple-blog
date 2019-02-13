@@ -61,7 +61,7 @@
     <h1 class="font-weight-bold pb-2 mb-5 text-uppercase"><ion-icon name="paper"></ion-icon> Blog</h1>
     <div class="row text-left">
         <?php
-                $data = $post->showPost('post_masters', 'created_at');
+                $data = $post->showPost('posts', 'created_at');
                 if(is_array($data)) {
                     foreach($data as $value) {
             ?>

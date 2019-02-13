@@ -31,7 +31,7 @@
         ?>
             <div class="row blog">
             <?php
-                $data = $post->showPost('post_masters', 'created_at');
+                $data = $post->showPost('posts', 'created_at');
                 if(is_array($data)) {
                     foreach($data as $value) {
             ?>
@@ -89,7 +89,7 @@
                 <?php
                     if(isset($_GET['id'])&&!empty($_GET['id'])) {
                         $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-                        $value = $post->selectPost('post_masters', $id);
+                        $value = $post->selectPost('posts', $id);
 
                         if(isset($_POST['submit'])) {
                             $post->updatePost($_POST['judul'], $_POST['isi'], $_FILES['img'], 1, $_SESSION['user_id'], 'post_masters', $_GET['id']);
@@ -123,7 +123,7 @@
                 break;
                 case "post_del":
                 if(isset($_GET['id'])&&!empty($_GET['id'])) {
-                    $post->deletePost('post_masters', $_GET['id']);
+                    $post->deletePost('posts', $_GET['id']);
                 } else {
                     header("Location: dashboard");
                 }

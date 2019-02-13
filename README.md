@@ -1,6 +1,5 @@
 
-![Travis (.com) branch](https://img.shields.io/travis/com/hardzal/webITC/master.svg) 
-![Progress status branch](https://img.shields.io/badge/progress-30%25-yellowgreen.svg)
+![Progress status branch](https://img.shields.io/badge/progress-40%25-yellowgreen.svg)
 
 # Blog
 Website Publikasi Kegiatan Kelompok Studi ITC UPNVYK
@@ -56,4 +55,4 @@ Sebagai Member
   - [ ] Validation
   - [ ] Authentication
 
-### Rewrite to Laravel [click here](https://github.com/hardzal/itcblog)
+### Rewrite to Laravel [click here](https://github.com/hardzal/larablog)
