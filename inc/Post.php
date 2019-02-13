@@ -51,16 +51,18 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
 
                 if(move_uploaded_file($img_tmp, $this->dir_file_image.$img_name)) {
                     try {
+                        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                         $this->pdo->beginTransaction();
-                        $this->pdo->query("INSERT INTO `post_masters` VALUES('', '$judul', now(), now(), '$img_name', '$isi')");
-                        $this->pdo->query("INSERT INTO `post_details` VALUES('', '".$this->pdo->lastInsertId()."', '$author', '$category')");
+                        $this->pdo->query("INSERT INTO `posts` VALUES('', '$judul', now(), now(), '$img_name', '$isi')");
                         $this->pdo->commit();
                         $message = "Post Added!";
                     } catch(PDOException $e) {
                         $this->pdo->rollBack();
                         $message = "Error: ". $e->getMessage();
                     }
-                }
+                    print_r($_POST);
+                    var_dump($_FILES);
+                } 
             }
             
             echo "<script>alert('$message')</script>";
