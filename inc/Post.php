@@ -41,13 +41,14 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
         }
 
         public function addPost() {
-            if(isset($img) && !empty($img)) {
+            if(isset($_FILES['img']) && !empty($_FILES['img'])) {
                 $img_name = $_FILES['img']['name'];
                 $img_size = $_FILES['img']['size'];
                 $img_type = $_FILES['img']['type'];
                 $img_tmp  = $_FILES['img']['tmp_name'];
-                $judul = strip_tags(trim($judul));
-                $isi = strip_tags(trim($isi));
+                $judul = strip_tags(trim($_POST['judul']));
+                $isi = strip_tags(trim($_POST['isi']));
+                $author = strip_tags(trim($_SESSION['user_id']));
 
                 if(move_uploaded_file($img_tmp, $this->dir_file_image.$img_name)) {
                     try {
@@ -124,6 +125,10 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
                 $idPost = filter_var($idPost, FILTER_SANITIZE_NUMBER_INT);
                 $query = $this->pdo->prepare("DELETE FROM $table WHERE id = :idPost");
                 $query->bindParam(':idPost', $idPost);
+                
+                $value = $this->selectPost('posts', $idPost);
+                unlink($this->dir_file_image.$value['img']);
+                
                 $query->execute();
 
                 $message = "Post Deleted!";

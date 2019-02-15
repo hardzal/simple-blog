@@ -12,7 +12,7 @@
                         <a class="nav-item nav-link font-weight-bold" href="login">Login</a>
                         <a class="nav-item nav-link font-weight-bold" href="signup">Sign Up</a>
                     <?php } else { ?>
-                        <a class="nav-item nav-link font-weight-bold" href="/home">Home</a>
+                        <a class="nav-item nav-link font-weight-bold" href="home">Home</a>
                         <a class="nav-item nav-link font-weight-bold" href="dashboard&p=logout">Logout</a>
                     <?php } ?>
                 </div>
