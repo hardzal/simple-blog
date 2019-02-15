@@ -40,14 +40,14 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
             }
         }
 
-        public function addPost($judul, $isi, $img, $category, $author) {
+        public function addPost() {
             if(isset($img) && !empty($img)) {
                 $img_name = $_FILES['img']['name'];
                 $img_size = $_FILES['img']['size'];
                 $img_type = $_FILES['img']['type'];
                 $img_tmp  = $_FILES['img']['tmp_name'];
                 $judul = strip_tags(trim($judul));
-                $isi = trim($isi);
+                $isi = strip_tags(trim($isi));
 
                 if(move_uploaded_file($img_tmp, $this->dir_file_image.$img_name)) {
                     try {
@@ -60,21 +60,20 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
                         $this->pdo->rollBack();
                         $message = "Error: ". $e->getMessage();
                     }
-                    print_r($_POST);
-                    var_dump($_FILES);
                 } 
             }
             
             echo "<script>alert('$message')</script>";
         }
 
-        public function updatePost($judul, $isi, $img, $category, $author, $table, $idPost) 
+        public function updatePost() 
         {
-            $judul = strip_tags(trim($judul));
-            $isi = trim($isi);
-            $value = $this->selectPost('post_masters', $idPost);
+            $judul = strip_tags(trim($_POST['judul']));
+            $isi = trim($_POST['isi']);
+            $value = $this->selectPost('posts', $_POST['id']);
             $img_name = isset($_FILES['img']) ? $_FILES['img']['name'] : $value['img'];
-            if(isset($img) && !empty($img)) {
+            $idPost = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+            if(isset($img_name) && !empty($img_name)) {
                 $img_name = $_FILES['img']['name'];
                 $img_size = $_FILES['img']['size'];
                 $img_type = $_FILES['img']['type'];
@@ -87,15 +86,27 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
             }
 
             try {
-                $this->pdo->beginTransaction();
+                $this->pdo->beginTransaction();    
                 
-                $query_m = $this->pdo->prepare("UPDATE `posts` SET judul= :judul, img = :img_name, isi = :isi, updated_at=now() WHERE id = :idPost");
-                $params = array(
-                    ':judul' => $judul,
-                    ':img_name' => $img_name,
-                    ':isi' => $isi,
-                    ':idPost' => $idPost
-                );
+                if(isset($img_name) && !empty($img_name)) {
+                    $query = "UPDATE `posts` SET judul= :judul, img = :img_name, isi = :isi, updated_at=now() WHERE id = :idPost";
+                    $params = array(
+                        ':judul' => $judul,
+                        ':img_name' => $img_name,
+                        ':isi' => $isi,
+                        ':idPost' => $idPost
+                    );
+                } else {
+                    $query = "UPDATE `posts` SET judul= :judul, isi = :isi, updated_at=now() WHERE id = :idPost";
+                    $params = array(
+                        ':judul' => $judul,
+                        ':isi' => $isi,
+                        ':idPost' => $idPost
+                    );
+                }
+                
+                $query_m = $this->pdo->prepare($query);
+
                 $query_m->execute($params);
                 $this->pdo->commit();
                 $message = "Post Updated!";
