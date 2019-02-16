@@ -35,7 +35,7 @@ Sebagai Member
 --------------------------------------------------------------------
 
   # Fitur - Fitur  
-  - [ ] CRUD (CREATE, READ, UPDATE, DELETE)
+  - [x] CRUD (CREATE, READ, UPDATE, DELETE)
     - tabel_post 
         - [x] Menampilkan Postingan Blog
         - [x] Membuat Postingan Blog
@@ -45,16 +45,19 @@ Sebagai Member
         - [x] Mendaftar akun baru (member)
         - [x] Masuk sebagai admin
         - [x] Masuk sebagai member
-        - [ ] Edit data admin
-        - [ ] Edit data member
-        - [ ] Menampilkan Member beserta admin (hak akses admin)
+        - [x] Edit data admin (admin)
+        - [x] Edit data member (member)
+        - [x] Menampilkan Member beserta admin (admin)
   
-  - [ ] Searching
-  - [ ] Sorting
-  - [ ] Pagination
-  - [ ] Authentication
+  - [x] Searching
+    - [ ] Pencarian data postingan blog 
+  - [x] Sorting
+    - [ ] Pengurutan data postingan blog
+  - [x] Pagination
+    - [ ] Menampilkan sebagian postingan blog per halaman
+  - [x] Authentication
     - [ ] Add Email Confirmation
     - [ ] Reset password
-  - [ ] Validation
+  - [x] Validation
 
 ### Rewrite to Laravel [click here](https://github.com/hardzal/larablog)

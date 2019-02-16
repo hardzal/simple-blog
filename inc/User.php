@@ -198,8 +198,12 @@ class User extends Database
             }
 
             $this->pdo->commit();
+            $message = "Berhasil memperbaharui data!";
         } catch(PDOException $e) {
-
+            $message = "Error : ". $e->getMessage();
         }
+        echo "<script>alert('".$message."')</script>";
+        sleep(1000);
+        header('Location: member');
     }
 }
