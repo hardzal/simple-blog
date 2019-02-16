@@ -42,17 +42,19 @@ Sebagai Member
         - [x] Memperbaharui Postingan Blog
         - [x] Menghapus Postingan Blog
     - tabel_user
-        - [ ] Mendaftar akun baru (member)
+        - [x] Mendaftar akun baru (member)
         - [x] Masuk sebagai admin
         - [x] Masuk sebagai member
-        - [ ] Memperbaharui data admin
-        - [ ] Memperbaharui data member
+        - [ ] Edit data admin
+        - [ ] Edit data member
         - [ ] Menampilkan Member beserta admin (hak akses admin)
   
   - [ ] Searching
   - [ ] Sorting
   - [ ] Pagination
-  - [ ] Validation
   - [ ] Authentication
+    - [ ] Add Email Confirmation
+    - [ ] Reset password
+  - [ ] Validation
 
 ### Rewrite to Laravel [click here](https://github.com/hardzal/larablog)

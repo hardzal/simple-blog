@@ -3,6 +3,7 @@ if (!defined('ACCESS')) exit; // direct access doesn't allowed
 
 class User extends Database
 {
+    private $table = 'users';
     public function __construct()
     {
         parent::__construct();
@@ -32,7 +33,6 @@ class User extends Database
         echo "<script>alert('Success Logout')</script>";
         unset($_SESSION['user_id']);
         unset($_SESSION['level']);
-        session_destroy();
         header("Location: login");
     }
 
@@ -149,5 +149,57 @@ class User extends Database
             }
         }
         echo "<script>alert('$message');</script>";
+    }
+
+    public function showData() {
+        try {
+            $query = "SELECT email, nama_lengkap, nim FROM `$this->table` WHERE id = ?";
+            $run = $this->pdo->prepare($query);
+
+            $run->bindParam(1, $_SESSION['user_id']);
+
+            $run->execute();
+            $run->setFetchMode(PDO::FETCH_ASSOC);
+
+            return $run->fetch();
+        } catch(PDOException $e) {
+            echo "Error : ".$e->getMessage();
+        }
+    }
+
+    public function updateData() {
+        try {
+            $this->pdo->beginTransaction();
+            $id_user = strip_tags(trim($_POST['id']));
+            $nama = strip_tags(trim($_POST['nama']));
+            $email = strip_tags(trim($_POST['email']));
+            $nim = strip_tags(trim($_POST['nim']));
+            
+            $query = "UPDATE `$this->table` SET email = :email, nama_lengkap = :nama_lengkap, nim = :nim WHERE id = :id";
+            $run = $this->pdo->prepare($query);
+
+            $params = array(
+                ":email" => $email,
+                ":nama_lengkap" => $nama,
+                ":nim" => $nim,
+                ":id" => $id_user
+            );
+
+            $run->execute($params);
+
+            if(isset($_POST['new_password']) && isset($_POST['confirm_password'])) {
+                $query = "UPDATE `$this->table` SET password = :password WHERE id = :id";
+                $run = $this->pdo->prepare($query);
+                $password = strip_tags(trim(password_hash($_POST['confirm_password'], PASSWORD_BCRYPT, ['cost' => 12])));
+                $run->bindParam(':password', $password);
+                $run->bindParam(':id', $_SESSION['user_id']);
+
+                $run->execute();
+            }
+
+            $this->pdo->commit();
+        } catch(PDOException $e) {
+
+        }
     }
 }

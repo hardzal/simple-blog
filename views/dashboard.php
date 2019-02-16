@@ -14,10 +14,9 @@
         <div class="col-2 bg-dark sidebar py-3">
             <a href="dashboard&p=post" class="btn btn-outline-success btn-block p-2"><ion-icon name="paper"></ion-icon>Posts</a>
             <a href="dashboard&p=post_add" class="btn btn-outline-success btn-block p-2 active"><ion-icon name="create"></ion-icon> Create Post</a>
-            <a href="dashboard&p=post_add" class="btn btn-outline-success btn-block p-2 active"><ion-icon name="create"></ion-icon> Settings</a>
+            <a href="dashboard&p=settings" class="btn btn-outline-success btn-block p-2 active"><ion-icon name="create"></ion-icon> Settings</a>
         </div>
         <div class="col-10 p-4">
-            <p> Selamat Datang! </p>
         <?php
             $p = isset($_GET['p']) ? $_GET['p'] : "";
 
@@ -29,9 +28,10 @@
             switch($p) {
                 case "post":
         ?>
+            <p> Selamat Datang! </p>
             <div class="row blog">
             <?php
-                $data = $post->showPost('posts', 'created_at');
+                $data = $post->showPost('created_at');
                 if(is_array($data)) {
                     foreach($data as $value) {
             ?>
@@ -89,10 +89,10 @@
                 <?php
                     if(isset($_GET['id'])&&!empty($_GET['id'])) {
                         $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-                        $value = $post->selectPost('posts', $id);
+                        $value = $post->selectPost($id);
                         
                         if(isset($_POST['submit'])) {
-                            $post->updatePost('posts');
+                            $post->updatePost();
                         }
                 ?>
                     <form method="post" action="" enctype="multipart/form-data">
@@ -123,7 +123,7 @@
                 break;
                 case "post_del":
                 if(isset($_GET['id'])&&!empty($_GET['id'])) {
-                    $post->deletePost('posts', $_GET['id']);
+                    $post->deletePost($_GET['id']);
                 } else {
                     header("Location: dashboard");
                 }
@@ -132,9 +132,36 @@
         <?php
                 break;
                 case "settings":
+                $user = new User();
+                $values = $user->showData();
         ?>
+                <h2>Settings</h2>
                 <form method="post" action="">
-                    
+                <?php
+                   if(isset($_POST['submit'])) {
+                        $user->updateData();
+                    }
+                ?>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" name="email" value="<?=$values['email'];?>">
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Password</label>
+                    <input type="password" class="form-control" placeholder="New password" name="new_password"><br>
+                    <label for="confirmNewPassword">Confirm Password</label>
+                    <input type="password" class="form-control" placeholder="Confirm password" name="confirm_password">
+                </div>
+                <div class="form-group">
+                    <label for="nama">Nama Lengkap</label>
+                    <input type="text" class="form-control" value="<?=$values['nama_lengkap'];?>" name="nama">
+                </div>
+                <div class="form-group">
+                    <label for="nim">NIM</label>
+                    <input type="text" class="form-control" value="<?=$values['nim'];?>" name="nim">
+                    <input type="hidden" value="<?=$_SESSION['user_id'];?>" name="id"/>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Submit" name="submit">
                 </form>
         <?php
                 break;

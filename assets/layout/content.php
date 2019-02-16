@@ -61,8 +61,9 @@
     <h1 class="font-weight-bold pb-2 mb-5 text-uppercase"><ion-icon name="paper"></ion-icon> Blog</h1>
     <div class="row text-left">
         <?php
-                $data = $post->showPost('posts', 'created_at');
-                if(is_array($data)) {
+                $data = $post->showPost('created_at');
+
+                if(is_array($data) && !empty($data)) {
                     foreach($data as $value) {
             ?>
                 <div class="col-md-4 mb-5">
@@ -81,6 +82,8 @@
                 </div>
             <?php 
                     }
+                } else {
+                    echo 'Belum ada post';
                 }
             ?>
     </div>
