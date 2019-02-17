@@ -14,7 +14,8 @@
         <div class="col-2 bg-dark sidebar py-3">
             <a href="dashboard&p=post" class="btn btn-outline-success btn-block p-2"><ion-icon name="paper"></ion-icon>Posts</a>
             <a href="dashboard&p=post_add" class="btn btn-outline-success btn-block p-2 active"><ion-icon name="create"></ion-icon> Create Post</a>
-            <a href="dashboard&p=settings" class="btn btn-outline-success btn-block p-2 active"><ion-icon name="create"></ion-icon> Settings</a>
+            <a href="dashboard&p=members" class="btn btn-outline-success btn-block p-2 active"><ion-icon name="person"></ion-icon> Members</a>
+            <a href="dashboard&p=settings" class="btn btn-outline-success btn-block p-2 active"><ion-icon name="contact"></ion-icon> Settings</a>
         </div>
         <div class="col-10 p-4">
         <?php
@@ -49,6 +50,8 @@
                 </div>
             <?php 
                     }
+                } else {
+                    echo "<p>Belum ada post!</p>";
                 }
             ?>
             </div>
@@ -132,7 +135,6 @@
         <?php
                 break;
                 case "settings":
-                $user = new User();
                 $values = $user->showData();
         ?>
                 <h2>Settings</h2>
@@ -163,6 +165,44 @@
                 </div>
                 <input type="submit" class="btn btn-primary" value="Submit" name="submit">
                 </form>
+        <?php
+                break;
+                case "members": 
+        ?>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">NIM</th>                
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    $data = $user->showMembers();
+
+                    if(is_array($data)) {
+                        $no = 0;
+                        foreach($data as $value) {
+                            $no = $no + 1;
+                ?>
+                    <tr>
+                        <th scope="row"><?=$no;?></th>
+                        <td><?=$value['username'];?></td>
+                        <td><?=$value['email'];?></td>
+                        <td><?=$value['nama_lengkap'];?></td>
+                        <td><?=$value['nim'];?></td>
+                    </tr>
+            <?php
+                    }
+                } else {
+                    echo "Belum ada member";
+                }
+            ?>
+                </tbody>
+            </table>
         <?php
                 break;
                 case "logout":

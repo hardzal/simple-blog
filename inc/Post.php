@@ -139,17 +139,5 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
 
             echo "<script>alert('$message')</script>";
         }
-
-        public function pagePost() {
-
-        }
-
-        public function searchPost() {
-
-        }
-
-        public function sortPost() {
-            
-        }
     }
 

@@ -203,7 +203,25 @@ class User extends Database
             $message = "Error : ". $e->getMessage();
         }
         echo "<script>alert('".$message."')</script>";
-        sleep(1000);
         header('Location: member');
+    }
+
+    public function showMembers() {
+        try {
+            $query = "SELECT username, email, nama_lengkap, nim FROM users WHERE level='U'";
+
+            $run = $this->pdo->prepare($query);
+
+            $run->execute();
+            $fetch = $run->fetchAll();
+            foreach($fetch as $data) {
+                $dataArray[] = $data;
+            }
+
+            $dataArray = isset($dataArray) ? $dataArray : "";
+            return $dataArray;
+        } catch(PDOException $e) {
+            echo "Error: ". $e->getMessage();
+        }
     }
 }
