@@ -165,7 +165,7 @@
             <?php
                     }
                 } else {
-                    echo "Belum ada member";
+                    echo "Belum ada kategori";
                 }
             ?>
                 </tbody>
@@ -173,10 +173,31 @@
         <?php
                 break;
                 case "categories_add":
+        ?>
 
+        <?php
                 break;
                 case "categories_update":
-
+                    $values = $category->showData();
+        ?>
+                <h2>Settings</h2>
+                <form method="post" action="">
+                <?php
+                   if(isset($_POST['submit'])) {
+                        $category->updateCategory();
+                    }
+                ?>
+                <div class="form-group">
+                    <label for="name">Nama</label>
+                    <input type="email" class="form-control" name="nama" value="<?=$values['nama'];?>">
+                </div>
+                <div class="form-group">
+                    <label for="keterangan">Keterangan</label>
+                    <textarea name="keterangan" id="keterangan_kategori" class="form-control" rows="15" required ><?=$values['keterangan'];?></textarea>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Submit" name="submit">
+                </form>
+        <?php
                 break;
                 case "categories_delete":
 
