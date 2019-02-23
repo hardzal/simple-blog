@@ -11,12 +11,12 @@ class Category extends Database {
 
     public function selectCategory($idCategory) {
         try {
-            $query = "SELECT * FROM $this->table";
+            $query = "SELECT * FROM $this->table WHERE id = ?";
             $prepare = $this->pdo->prepare($query);
-
+            $prepare->bindParam(1, $idCategory);
             $prepare->execute();
             $prepare->setFetchMode(PDO::FETCH_ASSOC);
-            $date = $prepare->fetch();
+            $data = $prepare->fetch();
             return $data;
         } catch(PDOException $e) {
             echo "Error: ".$e->getMessage();
@@ -45,11 +45,11 @@ class Category extends Database {
         try {
             $nama = strip_tags(trim($_POST['nama']));
             $keterangan = strip_tags(trim($_POST['keterangan']));
-            $query = "INSERT INTO $this->table VALUES(':nama', ':keterangan')";
+            $query = "INSERT INTO $this->table SET nama = :nama, keterangan = :keterangan";
             $prepare = $this->pdo->prepare($query);
 
-            $prepare->bindParam($nama);
-            $prepare->bindParam($keterangan);
+            $prepare->bindParam(':nama', $nama);
+            $prepare->bindParam(':keterangan', $keterangan);
 
             $prepare->execute();
             $message = 'Category Added!';
@@ -62,13 +62,15 @@ class Category extends Database {
 
     public function updateCategory() {
         try {
+            $id =  strip_tags(trim($_POST['id']));
             $nama = strip_tags(trim($_POST['nama']));
             $keterangan = strip_tags(trim($_POST['keterangan']));
-            $query = "UPDATE $this->table SET nama = :nama, keterangan = :keterangan";
+            $query = "UPDATE $this->table SET nama = :nama, keterangan = :keterangan WHERE id = :id";
             
             $prepare = $this->pdo->prepare($query);
             $prepare->bindParam(':nama', $nama);
             $prepare->bindParam(':keterangan', $keterangan);
+            $prepare->bindParam(':id', $id);
             $prepare->execute();
             $message = 'Success update!';
         } catch(PDOException $e) {

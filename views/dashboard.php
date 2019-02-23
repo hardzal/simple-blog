@@ -137,6 +137,8 @@
                 break;
                 case "categories": 
         ?>
+            <h2>List Categories</h2>
+            <a href='dashboard&p=categories_add'>Create category</a>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -160,7 +162,7 @@
                         <td scope="row"><?php echo $value['nama'];?></td>
                         <td scope="row"><?=$value['keterangan'];?></td> 
                         <td scope="row">
-                        <a href='dashboard'>Show</a> | <a href='dashboard&p=categories_update'>Edit</a> | <a href='dashboard&p=categories_delete'>Delete</a></td>
+                        <a href='dashboard'>Show</a> | <a href='dashboard&p=categories_update&id=<?=$value['id'];?>'>Edit</a> | <a href='dashboard&p=categories_delete&id=<?=$value['id'];?>'>Delete</a></td>
                     </tr>
             <?php
                     }
@@ -174,13 +176,30 @@
                 break;
                 case "categories_add":
         ?>
-
+                <h2>Create Category</h2>
+                <form method="post" action="">
+                <?php
+                   if(isset($_POST['submit'])) {
+                        $category->addCategory();
+                    }
+                ?>
+                <div class="form-group">
+                    <label for="name">Nama</label>
+                    <input type="text" class="form-control" name="nama">
+                </div>
+                <div class="form-group">
+                    <label for="keterangan">Keterangan</label>
+                    <textarea name="keterangan" id="keterangan_kategori" class="form-control" rows="10" required ></textarea>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Submit" name="submit">
+                </form>
         <?php
                 break;
                 case "categories_update":
-                    $values = $category->showData();
+                if(isset($_GET['id'])&&!empty($_GET['id'])) {    
+                    $values = $category->selectCategory($_GET['id']);
         ?>
-                <h2>Settings</h2>
+                <h2>Edit Category</h2>
                 <form method="post" action="">
                 <?php
                    if(isset($_POST['submit'])) {
@@ -189,18 +208,24 @@
                 ?>
                 <div class="form-group">
                     <label for="name">Nama</label>
-                    <input type="email" class="form-control" name="nama" value="<?=$values['nama'];?>">
+                    <input type="text" class="form-control" name="nama" value="<?=$values['nama'];?>">
                 </div>
                 <div class="form-group">
                     <label for="keterangan">Keterangan</label>
                     <textarea name="keterangan" id="keterangan_kategori" class="form-control" rows="15" required ><?=$values['keterangan'];?></textarea>
+                    <input type='hidden' name='id' value=<?=$values['id'];?>/>
                 </div>
                 <input type="submit" class="btn btn-primary" value="Submit" name="submit">
                 </form>
         <?php
+                }
                 break;
                 case "categories_delete":
-
+                if(isset($_GET['id'])&&!empty($_GET['id'])) {
+                    $category->deleteCategory($_GET['id']);
+                } else {
+                    header("Location: dashboard");
+                }
                 break;
                 case "settings":
                 $values = $user->showData();
