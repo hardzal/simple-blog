@@ -8,9 +8,11 @@ define('ACCESS', 1);
 require_once __DIR__."/inc/Database.php";
 require_once __DIR__."/inc/User.php";
 require_once __DIR__."/inc/Post.php";
+require_once __DIR__."/inc/Category.php";
 
 $user = new User();
 $post = new Post();
+$category = new Category();
 
 $cekLogin = $user->isLogin();
 

@@ -14,6 +14,7 @@
         <div class="col-2 bg-dark sidebar py-3">
             <a href="dashboard&p=post" class="btn btn-outline-success btn-block p-2"><ion-icon name="paper"></ion-icon>Posts</a>
             <a href="dashboard&p=post_add" class="btn btn-outline-success btn-block p-2 active"><ion-icon name="create"></ion-icon> Create Post</a>
+            <a href="dashboard&p=categories" class="btn btn-outline-success btn-block p-2 active"><ion-icon name="create"></ion-icon> Categories</a>
             <a href="dashboard&p=members" class="btn btn-outline-success btn-block p-2 active"><ion-icon name="person"></ion-icon> Members</a>
             <a href="dashboard&p=settings" class="btn btn-outline-success btn-block p-2 active"><ion-icon name="contact"></ion-icon> Settings</a>
         </div>
@@ -134,6 +135,52 @@
 
         <?php
                 break;
+                case "categories": 
+        ?>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Keterangan</th>
+                        <th scope="col">Option</th>               
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    $data = $category->showCategories();
+
+                    if(is_array($data)) {
+                        $no = 0;
+                        foreach($data as $value) {
+                            $no = $no + 1;
+                ?>
+                    <tr>
+                        <td scope="row"><?=$no;?></td>
+                        <td scope="row"><?php echo $value['nama'];?></td>
+                        <td scope="row"><?=$value['keterangan'];?></td> 
+                        <td scope="row">
+                        <a href='dashboard'>Show</a> | <a href='dashboard&p=categories_update'>Edit</a> | <a href='dashboard&p=categories_delete'>Delete</a></td>
+                    </tr>
+            <?php
+                    }
+                } else {
+                    echo "Belum ada member";
+                }
+            ?>
+                </tbody>
+            </table>    
+        <?php
+                break;
+                case "categories_add":
+
+                break;
+                case "categories_update":
+
+                break;
+                case "categories_delete":
+
+                break;
                 case "settings":
                 $values = $user->showData();
         ?>
@@ -176,7 +223,8 @@
                     <th scope="col">Username</th>
                     <th scope="col">Email</th>
                     <th scope="col">Name</th>
-                    <th scope="col">NIM</th>                
+                    <th scope="col">NIM</th> 
+                    <th scope="col">Option</th>               
                     </tr>
                 </thead>
                 <tbody>
@@ -194,6 +242,7 @@
                         <td><?=$value['email'];?></td>
                         <td><?=$value['nama_lengkap'];?></td>
                         <td><?=$value['nim'];?></td>
+                        <td>Edit | Delete</td>
                     </tr>
             <?php
                     }
