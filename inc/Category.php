@@ -10,7 +10,17 @@ class Category extends Database {
     }
 
     public function selectCategory($idCategory) {
+        try {
+            $query = "SELECT * FROM $this->table";
+            $prepare = $this->pdo->prepare($query);
 
+            $prepare->execute();
+            $prepare->setFetchMode(PDO::FETCH_ASSOC);
+            $date = $prepare->fetch();
+            return $data;
+        } catch(PDOException $e) {
+            echo "Error: ".$e->getMessage();
+        }
     }
 
     public function showCategories() {
