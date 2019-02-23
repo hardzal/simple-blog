@@ -78,11 +78,17 @@ class Category extends Database {
         echo "<script>alert('$message');</script>";
     }
 
-    public function deleteCategory() {
+    public function deleteCategory($idCategory) {
         try {
-
+            $query = "DELETE FROM $this->table WHERE id = ?";
+            $prepare = $this->pdo->prepare($query);
+            $prepare->bindParam(1, $idCategory);
+            $prepare->execute();
+            $message = "Success delete!";
         } catch(PDOException $e) {
-
+            $message = "Error : ".$e->getMessage();
         }
+
+        echo "<script>alert('$message');</script>";
     }
 }
