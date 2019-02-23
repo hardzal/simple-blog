@@ -33,10 +33,21 @@ class Category extends Database {
 
     public function addCategory() {
         try {
-            
-        } catch(PDOException $e) {
+            $nama = strip_tags(trim($_POST['nama']));
+            $keterangan = strip_tags(trim($_POST['keterangan']));
+            $query = "INSERT INTO $this->table VALUES(':nama', ':keterangan')";
+            $prepare = $this->pdo->prepare($query);
 
+            $prepare->bindParam($nama);
+            $prepare->bindParam($keterangan);
+
+            $prepare->execute();
+            $message = 'Category Added!';
+        } catch(PDOException $e) {
+            $message = 'Error: '. $e->getMessage();
         }
+
+        echo "<script>alert('$message')</script>";
     }
 
     public function updateCategory() {
