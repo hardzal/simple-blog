@@ -1,7 +1,6 @@
 <?php require_once "./assets/layout/header-white.php";?>
 <?php
-    $post = new Post();
-    $idPost = isset($_GET['id']) ? strip_tags(trim($_GET['id'])) : header('Location: ./home');
+    $idPost = isset($_GET['id']) ? strip_tags(trim($_GET['id'])) : '';
     $values = $post->selectPost($idPost);
 ?>
 <div class="container mt-5">

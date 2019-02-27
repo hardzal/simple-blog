@@ -1,7 +1,7 @@
+# Blog
 
 ![Progress status branch](https://img.shields.io/badge/progress-40%25-yellowgreen.svg)
 
-# Blog
 Website Publikasi Kegiatan Kelompok Studi ITC UPNVYK
 
 Untuk Menggunakan Web Ini silahkan di Download atau jika sudah memiliki git bisa diclone melalui command
@@ -11,14 +11,14 @@ Untuk Menggunakan Web Ini silahkan di Download atau jika sudah memiliki git bisa
 Kemudian letakkan folder tersebut di server lokal kamu.
 
 Setelah itu buat database dengan perintah berikut
-    
+
     CREATE DATABASE project_webitc
 
-Kemudian sebelum import gunakan perintah berikut 
-    
+Kemudian sebelum import gunakan perintah berikut
+
     USE project_webitc
 
-Lalu Import Database SQL <em>project_webitc.sql</em> Dalam hal ini kami menggunakan phpmyadmin
+Lalu Import Database SQL *project_webitc.sql* Dalam hal ini kami menggunakan phpmyadmin
 
 -------------------------------------------------------------------
 Data Untuk Login
@@ -26,38 +26,35 @@ Data Untuk Login
 Sebagai Admin
 
     email    : admin1@itc.com
-    password : 123456
-    
-Sebagai Member
+    password : 1234567
 
-    email    : member1@itc.com
-    password : 7654321
---------------------------------------------------------------------
+-------------------------------------------------------------------
 
-  # Fitur - Fitur  
-  - [x] CRUD (CREATE, READ, UPDATE, DELETE)
-    - tabel_post 
-        - [x] Menampilkan Postingan Blog
-        - [x] Membuat Postingan Blog
-        - [x] Memperbaharui Postingan Blog
-        - [x] Menghapus Postingan Blog
-    - tabel_user
-        - [x] Mendaftar akun baru (member)
-        - [x] Masuk sebagai admin
-        - [x] Masuk sebagai member
-        - [x] Edit data admin (admin)
-        - [x] Edit data member (member)
-        - [x] Menampilkan Member beserta admin (admin)
-  
-  - [x] Searching
-    - [ ] Pencarian data postingan blog 
-  - [x] Sorting
-    - [ ] Pengurutan data postingan blog
-  - [x] Pagination
-    - [ ] Menampilkan sebagian postingan blog per halaman
-  - [x] Authentication
-    - [ ] Add Email Confirmation
-    - [ ] Reset password
-  - [x] Validation
+## Fitur - Fitur  
+
+- [x] CRUD (CREATE, READ, UPDATE, DELETE)
+  - tabel_post
+    - [x] Menampilkan Postingan Blog
+    - [x] Membuat Postingan Blog
+    - [x] Memperbaharui Postingan Blog
+    - [x] Menghapus Postingan Blog
+  - tabel_user
+    - [x] Mendaftar akun baru (member)
+    - [x] Masuk sebagai admin
+    - [x] Masuk sebagai member
+    - [x] Edit data admin (admin)
+    - [x] Edit data member (member)
+    - [x] Menampilkan Member beserta admin (admin)
+
+- [x] Searching
+  - [ ] Pencarian data postingan blog
+- [x] Sorting
+  - [ ] Pengurutan data postingan blog
+- [x] Pagination
+  - [ ] Menampilkan sebagian postingan blog per halaman
+- [x] Authentication
+  - [ ] Add Email Confirmation
+  - [ ] Reset password
+- [x] Validation
 
 ### Rewrite to Laravel [click here](https://github.com/hardzal/larablog)

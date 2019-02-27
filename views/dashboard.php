@@ -73,6 +73,21 @@
                             <input type="text" class="form-control" placeholder="Judul" name="judul" required/>
                         </div>
                         <div class="form-group">
+                            <label for="kategori">Kategori</label><br>
+                            <select name="kategori">
+                                <option value=''>Pilih Kategori</option>
+                                <?php
+                                    $list_categories = $category->showCategories();
+                                    
+                                    foreach($list_categories as $value) {
+                                ?>
+                                    <option value='<?=$value['nama'];?>'><?=$value['nama'];?></option>
+                                <?php
+                                    }
+                                ?>
+                            </select>    
+                        </div>
+                        <div class="form-group">
                             <label for="gambar">Gambar</label>
                             <input type="file" class="form-control-file" placeholder="" name="img" required/>
                         </div>

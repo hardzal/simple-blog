@@ -123,7 +123,7 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
         public function deletePost($idPost) {
             try {
                 $idPost = filter_var($idPost, FILTER_SANITIZE_NUMBER_INT);
-                $query = $this->pdo->prepare("DELETE FROM $table WHERE id = :idPost");
+                $query = $this->pdo->prepare("DELETE FROM $this->table WHERE id = :idPost");
                 $query->bindParam(':idPost', $idPost);
                 
                 $value = $this->selectPost('posts', $idPost);
