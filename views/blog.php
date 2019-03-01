@@ -7,7 +7,7 @@
     <div class="row mb-5">
         <div class="col-md-10 d-block m-auto blog">
             <h2 class="font-weight-bold mb-4"><?=$values['judul'];?></h2> 
-            <img src='assets/img/<?=$values['img'];?>'/>
+            <img src='assets/img/<?=$values['img'];?>' style="width:100%;" class="mb-3"/>
             <p class="text-justify">
                 <?=$values['isi'];?>
             </p>

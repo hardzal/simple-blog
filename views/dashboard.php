@@ -120,6 +120,23 @@
                             <input type="text" class="form-control" placeholder="Judul" name="judul" value="<?php echo $value['judul'];?>" required/>
                         </div>
                         <div class="form-group">
+                            <label for="kategori">Kategori</label><br>
+                            <select name="kategori">
+                                <option value=''>Pilih Kategori</option>
+                                <?php
+                                    $list_categories = $category->showCategories();
+                                    $selected = $category->selectCategory($value['category_id']);
+                                    foreach($list_categories as $kategori) {
+                                ?>
+                                    <option value='<?=$kategori['id'];?>' <?php if($kategori['id']==$selected['id']) echo "selected";?>>
+                                        <?=$kategori['nama'];?></option>
+                                <?php
+                                    }
+                                ?>
+                            </select>    
+                        </div>
+                    
+                        <div class="form-group">
                             <label for="gambar">Gambar</label>
                             <input type="file" class="form-control-file" placeholder="" name="img"/>
                         </div>
@@ -303,7 +320,7 @@
                         <td><?=$value['email'];?></td>
                         <td><?=$value['nama_lengkap'];?></td>
                         <td><?=$value['nim'];?></td>
-                        <td>Edit | Delete</td>
+                        <td><a href='#edit' class="bg-success p-2" style="color:white;">Edit</a> | <a href='#delete' class="bg-danger p-2" style="color:white;">Delete</a></td>
                     </tr>
             <?php
                     }

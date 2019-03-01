@@ -41,11 +41,12 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
             }
         }
 
-        public function addPost() {
+        public function addPost() 
+        {
             if(isset($_FILES['img']) && !empty($_FILES['img'])) {
                 $img_name = $_FILES['img']['name'];
-                $img_size = $_FILES['img']['size'];
-                $img_type = $_FILES['img']['type'];
+               // $img_size = $_FILES['img']['size'];
+              // $img_type = $_FILES['img']['type'];
                 $img_tmp  = $_FILES['img']['tmp_name'];
                 $judul = strip_tags(trim($_POST['judul']));
                 $isi = strip_tags(trim($_POST['isi']));
@@ -56,6 +57,7 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
                         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                         $this->pdo->beginTransaction();
                         $this->pdo->query("INSERT INTO `$this->table` VALUES('', '$author', '$judul', '$img_name', '$isi', now(), now())");
+                        $this->pdo->query();
                         $this->pdo->commit();
                         $message = "Post Added!";
                     } catch(PDOException $e) {
@@ -75,10 +77,11 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
             $value = $this->selectPost('posts', $_POST['id']);
             $img_name = isset($_FILES['img']) ? $_FILES['img']['name'] : $value['img'];
             $idPost = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+            $idCategory = strip_tags(trim($_POST['kategori']));
             if(isset($img_name) && !empty($img_name)) {
                 $img_name = $_FILES['img']['name'];
-                $img_size = $_FILES['img']['size'];
-                $img_type = $_FILES['img']['type'];
+                // $img_size = $_FILES['img']['size'];
+                // $img_type = $_FILES['img']['type'];
                 $img_tmp  = $_FILES['img']['tmp_name'];
 
                 if(is_file($this->dir_file_image.$value['img']) && file_exists($this->dir_file_image.$value['img'])) {
@@ -91,17 +94,19 @@ if(!defined('ACCESS')) exit; // direct access doesn't allowed
                 $this->pdo->beginTransaction();    
                 
                 if(isset($img_name) && !empty($img_name)) {
-                    $query = "UPDATE `$this->table` SET judul= :judul, img = :img_name, isi = :isi, updated_at=now() WHERE id = :idPost";
+                    $query = "UPDATE `$this->table` SET judul= :judul, category_id = :idCategory, img = :img_name, isi = :isi, updated_at=now() WHERE id = :idPost";
                     $params = array(
                         ':judul' => $judul,
+                        ':idCategory' => $idCategory,
                         ':img_name' => $img_name,
                         ':isi' => $isi,
                         ':idPost' => $idPost
                     );
                 } else {
-                    $query = "UPDATE `$this->table` SET judul= :judul, isi = :isi, updated_at=now() WHERE id = :idPost";
+                    $query = "UPDATE `$this->table` SET judul= :judul, category_id = :idCategory, isi = :isi, updated_at=now() WHERE id = :idPost";
                     $params = array(
                         ':judul' => $judul,
+                        ':idCategory' => $idCategory,
                         ':isi' => $isi,
                         ':idPost' => $idPost
                     );
