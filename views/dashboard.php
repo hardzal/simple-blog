@@ -194,7 +194,7 @@
                         <td scope="row"><?php echo $value['nama'];?></td>
                         <td scope="row"><?=$value['keterangan'];?></td> 
                         <td scope="row">
-                        <a href='dashboard'>Show</a> | <a href='dashboard&p=categories_update&id=<?=$value['id'];?>'>Edit</a> | <a href='dashboard&p=categories_delete&id=<?=$value['id'];?>'>Delete</a></td>
+                        <a href='dashboard' class='btn btn-success'>Show</a> | <a href='dashboard&p=categories_update&id=<?=$value['id'];?>' class='btn btn-primary'>Edit</a> | <a href='dashboard&p=categories_delete&id=<?=$value['id'];?>' class='btn btn-danger'>Delete</a></td>
                     </tr>
             <?php
                     }
@@ -320,7 +320,7 @@
                         <td><?=$value['email'];?></td>
                         <td><?=$value['nama_lengkap'];?></td>
                         <td><?=$value['nim'];?></td>
-                        <td><a href='#edit' class="bg-success p-2" style="color:white;">Edit</a> | <a href='#delete' class="bg-danger p-2" style="color:white;">Delete</a></td>
+                        <td><a href='#edit' class="btn btn-primary" style="color:white;">Edit</a> | <a href='#delete' class="btn btn-danger" style="color:white;">Delete</a></td>
                     </tr>
             <?php
                     }
