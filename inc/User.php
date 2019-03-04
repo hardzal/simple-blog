@@ -208,7 +208,7 @@ class User extends Database
 
     public function showMembers() {
         try {
-            $query = "SELECT username, email, nama_lengkap, nim FROM users WHERE level='U'";
+            $query = "SELECT id, username, email, nama_lengkap, nim FROM users WHERE level='U'";
 
             $run = $this->pdo->prepare($query);
 
@@ -222,6 +222,14 @@ class User extends Database
             return $dataArray;
         } catch(PDOException $e) {
             echo "Error: ". $e->getMessage();
+        }
+    }
+
+    public function selectMember() {
+        try {
+
+        } catch(PDOException $e) {
+            
         }
     }
 }

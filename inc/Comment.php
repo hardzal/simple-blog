@@ -6,4 +6,24 @@ class Comment extends Database {
     public function __construct() {
         parent::__construct();
     }
+
+    public function selectComment() {
+
+    }
+
+    public function showComments() {
+
+    }
+
+    public function addComment() {
+
+    }
+
+    public function updateComment() {
+
+    }
+
+    public function deleteComment() {
+        
+    }
 }

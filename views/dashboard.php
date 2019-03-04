@@ -320,7 +320,7 @@
                         <td><?=$value['email'];?></td>
                         <td><?=$value['nama_lengkap'];?></td>
                         <td><?=$value['nim'];?></td>
-                        <td><a href='#edit' class="btn btn-primary" style="color:white;">Edit</a> | <a href='#delete' class="btn btn-danger" style="color:white;">Delete</a></td>
+                        <td><a href='dashboard&p=member_edit&id=<?=$value['id'];?>' class="btn btn-primary" style="color:white;">Edit</a> | <a href='dashboard&p=member_delete&id=<?=$value['id'];?>' class="btn btn-danger" style="color:white;">Delete</a></td>
                     </tr>
             <?php
                     }
@@ -330,7 +330,43 @@
             ?>
                 </tbody>
             </table>
-        <?php
+            <?php
+                break;
+                case "member_edit": 
+            ?>
+                <form method="POST" action="" autocomplete="off">
+                <?php
+                    if(isset($_POST['submit'])) {
+                        $user->updateData();
+                     }
+
+                     $id = strip_tags(trim($_GET['id']));
+
+                     $value = $user->selectMember($id);
+                     
+                ?>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address <span style="color:red;">*</span></label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name='email' placeholder="Enter email" maxlength='100' required/>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username <span style="color:red;">*</span></label>
+                    <input type="username" class="form-control" id="username" placeholder="username" maxlength='32' name='username' required/>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password <span style="color:red;">*</span></label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name='password' maxlength='100' required/>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword2">Confirm Password <span style="color:red;">*</span></label>
+                    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" name='password_confirm' maxlength='100' required/>
+                </div>
+                <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+            </form>
+            <?php
+                break;
+                case "member_delete":
+                    
                 break;
                 case "logout":
                     $user->logout();
