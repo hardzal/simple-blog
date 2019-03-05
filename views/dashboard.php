@@ -293,24 +293,23 @@
         <?php
                 break;
                 case "members": 
-        ?>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">NIM</th> 
-                    <th scope="col">Option</th>               
-                    </tr>
-                </thead>
-                <tbody>
-                <?php
                     $data = $user->showMembers();
-
                     if(is_array($data)) {
                         $no = 0;
+                ?>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">NIM</th> 
+                        <th scope="col">Option</th>               
+                        </tr>
+                    </thead>
+                    <tbody>
+                <?php
                         foreach($data as $value) {
                             $no = $no + 1;
                 ?>
@@ -333,40 +332,46 @@
             <?php
                 break;
                 case "member_edit": 
+                    if(isset($_POST['submit'])) {
+                      $user->updateData();
+                    }
+                    
+                    $id    = strip_tags(trim($_GET['id']));
+                    $value = $user->selectMember($id);
             ?>
                 <form method="POST" action="" autocomplete="off">
-                <?php
-                    if(isset($_POST['submit'])) {
-                        $user->updateData();
-                     }
-
-                     $id = strip_tags(trim($_GET['id']));
-
-                     $value = $user->selectMember($id);
-                     
-                ?>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address <span style="color:red;">*</span></label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name='email' placeholder="Enter email" maxlength='100' required/>
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name='email' placeholder="Enter email" maxlength='100' value="<?=$value['email'];?>"/>
                 </div>
                 <div class="form-group">
-                    <label for="username">Username <span style="color:red;">*</span></label>
-                    <input type="username" class="form-control" id="username" placeholder="username" maxlength='32' name='username' required/>
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" value="<?=$value['username'];?>" maxlength='32' name='username'/>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password <span style="color:red;">*</span></label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name='password' maxlength='100' required/>
+                    <label for="nim">NIM</label>
+                    <input type="text" class="form-control" id="nim" value="<?=$value['nim'];?>" maxlength='10' name='nim'/>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword2">Confirm Password <span style="color:red;">*</span></label>
-                    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" name='password_confirm' maxlength='100' required/>
+                    <label for="nama_lengkap">Nama Lengkap</label>
+                    <input type="text" class="form-control" id="nama_lengkap" value="<?=$value['nama_lengkap'];?>" maxlength='32' name='nama'/>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name='password' maxlength='100'/>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword2">Confirm Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password" name='password_confirm' maxlength='100'/>
                 </div>
                 <button type="submit" class="btn btn-primary" name="submit">Submit</button>
             </form>
             <?php
                 break;
                 case "member_delete":
-                    
+                    $id = strip_tags(trim($_GET['id']));
+
+                    $user->deleteMember($id);
                 break;
                 case "logout":
                     $user->logout();

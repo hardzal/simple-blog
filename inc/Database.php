@@ -4,7 +4,7 @@ require_once 'Config.php';
     class Database extends Config {
                
         protected function __construct() {
-            try {
+            try { 
                 date_default_timezone_get('Asia/Jakarta');
                 $this->pdo = new PDO("mysql:host=".$this->dbHost.";dbname=".$this->dbName, $this->dbUser, $this->dbPassword, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
                 $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

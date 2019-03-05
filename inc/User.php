@@ -225,11 +225,40 @@ class User extends Database
         }
     }
 
-    public function selectMember() {
+    public function selectMember($id) {
         try {
+            $query = "SELECT * FROM users WHERE id = :id";
+            $run = $this->pdo->prepare($query);
 
+            $run->bindParam(':id', $id);
+
+            $run->execute();
+            $run->setFetchMode(PDO::FETCH_ASSOC);
+
+            $data = $run->fetch();
+            return $data;
         } catch(PDOException $e) {
-            
+            echo "Error: ".$e->getMessage();
         }
     }
+
+    public function deleteMember($id) {
+        try {
+            $query = "DELETE FROM users WHERE id = :id";
+            $run = $this->pdo->prepare($query);
+
+            $run->bindParam(':id', $id);
+
+            $run->execute();
+            $message = "Post Deleted!";
+
+            header("Location: dashboard");
+        } catch (PDOException $e) {
+            $message = "Error: ". $e->getMessage();
+        }
+
+        echo "<script>alert('$message')</script>";
+    }
+
+
 }
