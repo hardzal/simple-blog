@@ -46,15 +46,16 @@ Sebagai Admin
     - [x] Edit data member (member)
     - [x] Menampilkan Member beserta admin (admin)
 
-- [x] Searching
+- [ ] Searching
   - [ ] Pencarian data postingan blog
-- [x] Sorting
+- [ ] Sorting
   - [ ] Pengurutan data postingan blog
-- [x] Pagination
+- [ ] Pagination
   - [ ] Menampilkan sebagian postingan blog per halaman
-- [x] Authentication
+- [ ] Authentication
   - [ ] Add Email Confirmation
   - [ ] Reset password
-- [x] Validation
+- [ ] Validation
+- [ ] Comments 
 
 ### Rewrite to Laravel [click here](https://github.com/hardzal/larablog)
