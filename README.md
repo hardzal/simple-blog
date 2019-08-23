@@ -28,6 +28,8 @@ Sebagai Admin
     email    : admin1@itc.com
     password : 1234567
 
+Sebagai User
+
 -------------------------------------------------------------------
 
 ## Fitur - Fitur  

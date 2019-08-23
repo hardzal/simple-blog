@@ -1,6 +1,7 @@
 <?php
 
-class Config {
+class Config
+{
     protected static $userData = [
         'username',
         'password',
@@ -14,4 +15,14 @@ class Config {
     protected $dbName = "project_webitc";
     protected $pdo;
     protected $message;
+
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+    public function getMessage()
+    {
+        return $this->message;
+    }
 }
