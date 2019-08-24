@@ -152,6 +152,28 @@ class Post extends Database
             $message = "Error: " . $e->getMessage();
         }
 
-        echo "<script>alert('$message')</script>";
+        $this->setMessage($message);
+        $_SESSION['message'] = $this->getMessage();
+        header("Location: dashboard");
+    }
+
+    public function postRelated($category_id)
+    {
+        try {
+            $category_id = filter_var($category_id, FILTER_SANITIZE_NUMBER_INT);
+            $query = $this->pdo->prepare("SELECT * FROM $this->table WHERE category_id = :category_id ORDER BY created_at DESC");
+            $query->bindParam(':category_id', $category_id);
+
+            $query->execute();
+
+            $data = $query->fetchAll();
+
+            return $data;
+        } catch (PDOException $er) {
+            $message = "Error: " . $er->getMessage();
+        }
+
+        $this->setMessaget($message);
+        $_SESSION['message'] = $this->getMessage();
     }
 }

@@ -6,17 +6,15 @@ if (!$cekLogin) {
 if ($user->checkLevel() == 'U') {
     header("Location: member");
 }
-require_once "./assets/layout/header-white.php";
+require_once "./views/layout/header-white.php";
 ?>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-2 bg-dark sidebar py-3">
+
             <a href="dashboard&p=post" class="btn btn-outline-success btn-block p-2 active">
                 <ion-icon name="paper"></ion-icon>Posts
-            </a>
-            <a href="dashboard&p=post_add" class="btn btn-outline-success btn-block p-2 active">
-                <ion-icon name="create"></ion-icon> Create Post
             </a>
             <a href="dashboard&p=categories" class="btn btn-outline-success btn-block p-2 active">
                 <ion-icon name="pricetags"></ion-icon> Categories
@@ -38,12 +36,18 @@ require_once "./assets/layout/header-white.php";
             if (empty($p)) {
                 $p = "post";
             }
-
             $p = filter_var($p, FILTER_SANITIZE_STRING);
             switch ($p) {
                 case "post":
                     ?>
 
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <a href="dashboard&p=post_add" class="btn btn-md btn-info">
+                        <ion-icon name="create"></ion-icon> Create Post
+                    </a>
+                </div>
+            </div>
             <?php
                 if (isset($_SESSION['message'])) {
                     ?>

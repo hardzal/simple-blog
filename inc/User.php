@@ -9,7 +9,7 @@ class User extends Database
         parent::__construct();
     }
 
-    public function isLogin() : bool
+    public function isLogin(): bool
     {
         if (!isset($_SESSION['user_id']) && empty($_SESSION['user_id'])) {
             return false;
@@ -74,10 +74,11 @@ class User extends Database
             }
         }
 
-        echo "<script>alert('$message')</script>";
+        $this->setMessage($message);
+        $_SESSION['message'] = $this->getMessage();
 
         if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
-                // $this->pdo->closeConnection();                
+            // $this->pdo->closeConnection();                
             header("Location:dashboard");
         }
     }
@@ -107,16 +108,13 @@ class User extends Database
             $message = "Username must be alpha numeric";
         } else if ($password != $passwordConfirm) {
             $message = "Password doesn't match";
-        } 
-        else 
-        {
+        } else {
             $validated = true;
-            if ($validated == true) 
-            {
+            if ($validated == true) {
                 $options = [
                     'cost' => 12,
                 ];
-                    // Hash the password and set the plaintext variable to a hashed version
+                // Hash the password and set the plaintext variable to a hashed version
                 $password = password_hash($password, PASSWORD_BCRYPT, $options);
 
                 $query = "SELECT * FROM users WHERE username = :username";
@@ -130,9 +128,9 @@ class User extends Database
                 } else {
                     try {
                         $query = "INSERT INTO users(id, username, password, email, level) VALUES (UUID_SHORT(), :username, :password, :email, :level)";
-                        
+
                         $rquery = $this->pdo->prepare($query);
-                        
+
                         $params = array(
                             ':username' => $username,
                             ':password' => $password,
@@ -143,15 +141,17 @@ class User extends Database
                         $rquery->execute($params);
                         $message = "Your account was successfully created";
                     } catch (PDOException $e) {
-                        $message = "Error: ".$e->getMessage();
+                        $message = "Error: " . $e->getMessage();
                     }
                 }
             }
         }
-        echo "<script>alert('$message');</script>";
+        $this->setMessage($message);
+        $_SESSION['message'] = $this->getMessage();
     }
 
-    public function showData() {
+    public function showData()
+    {
         try {
             $query = "SELECT email, nama_lengkap, nim FROM `$this->table` WHERE id = ?";
             $run = $this->pdo->prepare($query);
@@ -162,19 +162,22 @@ class User extends Database
             $run->setFetchMode(PDO::FETCH_ASSOC);
 
             return $run->fetch();
-        } catch(PDOException $e) {
-            echo "Error : ".$e->getMessage();
+        } catch (PDOException $e) {
+            $message =  "Error : " . $e->getMessage();
         }
+        $this->setMessage($message);
+        $_SESSION['message'] = $this->getMessage();
     }
 
-    public function updateData() {
+    public function updateData()
+    {
         try {
             $this->pdo->beginTransaction();
             $id_user = strip_tags(trim($_POST['id']));
             $nama = strip_tags(trim($_POST['nama']));
             $email = strip_tags(trim($_POST['email']));
             $nim = strip_tags(trim($_POST['nim']));
-            
+
             $query = "UPDATE `$this->table` SET email = :email, nama_lengkap = :nama_lengkap, nim = :nim WHERE id = :id";
             $run = $this->pdo->prepare($query);
 
@@ -187,7 +190,7 @@ class User extends Database
 
             $run->execute($params);
 
-            if(isset($_POST['new_password']) && isset($_POST['confirm_password'])) {
+            if (isset($_POST['new_password']) && isset($_POST['confirm_password'])) {
                 $query = "UPDATE `$this->table` SET password = :password WHERE id = :id";
                 $run = $this->pdo->prepare($query);
                 $password = strip_tags(trim(password_hash($_POST['confirm_password'], PASSWORD_BCRYPT, ['cost' => 12])));
@@ -199,14 +202,16 @@ class User extends Database
 
             $this->pdo->commit();
             $message = "Berhasil memperbaharui data!";
-        } catch(PDOException $e) {
-            $message = "Error : ". $e->getMessage();
+        } catch (PDOException $e) {
+            $message = "Error : " . $e->getMessage();
         }
-        echo "<script>alert('".$message."')</script>";
+        $this->setMessage($message);
+        $_SESSION['message'] = $this->getMessage();
         header('Location: member');
     }
 
-    public function showMembers() {
+    public function showMembers()
+    {
         try {
             $query = "SELECT id, username, email, nama_lengkap, nim FROM users WHERE level='U'";
 
@@ -214,18 +219,21 @@ class User extends Database
 
             $run->execute();
             $fetch = $run->fetchAll();
-            foreach($fetch as $data) {
+            foreach ($fetch as $data) {
                 $dataArray[] = $data;
             }
 
             $dataArray = isset($dataArray) ? $dataArray : "";
             return $dataArray;
-        } catch(PDOException $e) {
-            echo "Error: ". $e->getMessage();
+        } catch (PDOException $e) {
+            $message = "Error: " . $e->getMessage();
         }
+        $this->setMessage($message);
+        $_SESSION['message'] = $this->getMessage();
     }
 
-    public function selectMember($id) {
+    public function selectMember($id)
+    {
         try {
             $query = "SELECT * FROM users WHERE id = :id";
             $run = $this->pdo->prepare($query);
@@ -237,12 +245,15 @@ class User extends Database
 
             $data = $run->fetch();
             return $data;
-        } catch(PDOException $e) {
-            echo "Error: ".$e->getMessage();
+        } catch (PDOException $e) {
+            $message = "Error: " . $e->getMessage();
         }
+        $this->setMessage($message);
+        $_SESSION['message'] = $this->getMessage();
     }
 
-    public function deleteMember($id) {
+    public function deleteMember($id)
+    {
         try {
             $query = "DELETE FROM users WHERE id = :id";
             $run = $this->pdo->prepare($query);
@@ -254,11 +265,10 @@ class User extends Database
 
             header("Location: dashboard");
         } catch (PDOException $e) {
-            $message = "Error: ". $e->getMessage();
+            $message = "Error: " . $e->getMessage();
         }
 
-        echo "<script>alert('$message')</script>";
+        $this->setMessage($message);
+        $_SESSION['message'] = $this->getMessage();
     }
-
-
 }
