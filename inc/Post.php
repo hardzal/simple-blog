@@ -14,7 +14,12 @@ class Post extends Database
     public function selectPost($idPost)
     {
         try {
-            $query = $this->pdo->prepare("SELECT * FROM $this->table WHERE id = :idPost");
+            $query = $this->pdo->prepare("SELECT 
+                p.id, p.category_id, p.user_id, p.judul, p.img, p.isi, p.created_at, p.updated_at, c.nama, u.nama_lengkap
+            FROM posts p 
+                LEFT JOIN categories c ON p.category_id=c.id
+                LEFT JOIN users u ON p.user_id=u.id
+            WHERE p.id = :idPost");
             $query->bindParam(':idPost', $idPost, PDO::PARAM_INT);
             $query->execute();
             $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -29,7 +34,12 @@ class Post extends Database
     public function showPost($orderBy)
     {
         try {
-            $query = $this->pdo->prepare("SELECT * FROM $this->table ORDER BY $orderBy DESC");
+            $query = $this->pdo->prepare("SELECT 
+            p.id, p.category_id, p.user_id, p.judul, p.img, p.isi, p.created_at, p.updated_at, c.nama, u.nama_lengkap
+            FROM $this->table p 
+                LEFT JOIN categories c ON p.category_id=c.id
+                LEFT JOIN users u ON p.user_id=u.id
+            ORDER BY $orderBy DESC");
             $query->execute();
             $fetch = $query->fetchAll();
 

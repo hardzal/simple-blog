@@ -189,6 +189,7 @@ class User extends Database
             );
 
             $run->execute($params);
+            $run->closeCursor();
 
             if (isset($_POST['new_password']) && isset($_POST['confirm_password'])) {
                 $query = "UPDATE `$this->table` SET password = :password WHERE id = :id";
@@ -199,15 +200,16 @@ class User extends Database
 
                 $run->execute();
             }
-
+            $run->closeCursor();
             $this->pdo->commit();
             $message = "Berhasil memperbaharui data!";
         } catch (PDOException $e) {
+            $this->pdo->rollBack();
             $message = "Error : " . $e->getMessage();
         }
         $this->setMessage($message);
         $_SESSION['message'] = $this->getMessage();
-        header('Location: member');
+        header('Location: dashboard&p=members');
     }
 
     public function showMembers()

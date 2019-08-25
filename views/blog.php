@@ -6,7 +6,11 @@ $values = $post->selectPost($idPost);
 <div class="container mt-5">
     <div class="row mb-5">
         <div class="col-md-10 d-block m-auto blog">
-            <h2 class="font-weight-bold mb-4"><?= $values['judul']; ?></h2>
+            <h2 class="font-weight-bold mb-1"><?= $values['judul']; ?></h2>
+            <hr />
+            <div class="mb-3">
+                <small>Posted on <strong><em><?= $values['created_at']; ?></em></strong> on Category <strong><em><?= $values['nama']; ?></em></strong></small>
+            </div>
             <img src='assets/img/<?= $values['img']; ?>' style="width:100%;" class="mb-3" />
             <p class="text-justify">
                 <?= $values['isi']; ?>
@@ -14,6 +18,7 @@ $values = $post->selectPost($idPost);
         </div>
     </div>
     <h2 class="mb-4">Lihat lainnya</h2>
+    <hr />
     <div class="row blog">
         <?php
         $post_relationship = $post->postRelated($values['category_id']);

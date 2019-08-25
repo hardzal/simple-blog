@@ -26,26 +26,48 @@ Data Untuk Login
 Sebagai Admin
 
     email    : admin1@itc.com
-    password : 1234567
+    password : 1234567              
 
 Sebagai User
+
+    email    : firstmember@gmail.com
+    password : 1234567
 
 -------------------------------------------------------------------
 
 ## Fitur - Fitur  
 
-- [x] CRUD (CREATE, READ, UPDATE, DELETE)
-  - tabel_post
-    - [x] Menampilkan Postingan Blog
-    - [x] Membuat Postingan Blog
-    - [x] Memperbaharui Postingan Blog
-    - [x] Menghapus Postingan Blog
-  - tabel_user
-    - [x] Mendaftar akun baru (member)
-    - [x] Masuk sebagai admin
-    - [x] Masuk sebagai member
-    - [x] Edit data admin (admin)
-    - [x] Edit data member (member)
-    - [x] Menampilkan Member beserta admin (admin)
+- Authentication
+  - [x] Login
+  - [x] Signup
+  - [ ] Add Email Confirmation
+  - [ ] Reset password
+  - [ ] Remember me?
+- CRUD (CREATE, READ, UPDATE, DELETE)
+  - [x] CRUD posts
+  - [x] CRUD users
+  - [x] CRUD categories
+  - [ ] CRUD tags
+- Searching
+  - [ ] Pencarian data postingan blog
+  - [ ] Pencarian data kategori per halaman
+  - [ ] Pencarian data member per halaman
+- Sorting
+  - [ ] Pengurutan data postingan blog
+  - [ ] Pengurutan data kategori per halaman
+  - [ ] Pengurutan data member per halaman
+- Pagination
+  - [ ] Menampilkan sebagian postingan blog per halaman
+  - [ ] Menampilkan sebagian kategori per halaman
+  - [ ] Menampilkan sebagian member per halaman
+- Validation
+  - [ ] Form Login Validation
+  - [ ] Form Signup Validation
+  - [ ] Form CRUD Validation
+- Exporting
+  - [ ] mengekspor data member
+  - [ ] mengekspor data post
+  - [ ] mengekspor data kategori
+  - [ ] mengekspor semua data
 
 ### Rewrite to Laravel [click here](https://github.com/hardzal/larablog)

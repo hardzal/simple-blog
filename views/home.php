@@ -72,7 +72,7 @@
     </h1>
     <div class="row text-left">
         <?php
-        $data = $post->showPost('created_at');
+        $data = $post->showPost('p.created_at');
 
         if (is_array($data) && !empty($data)) {
             foreach ($data as $value) {

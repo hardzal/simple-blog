@@ -9,10 +9,15 @@ require_once __DIR__ . "/inc/Database.php";
 require_once __DIR__ . "/inc/User.php";
 require_once __DIR__ . "/inc/Post.php";
 require_once __DIR__ . "/inc/Category.php";
+require_once __DIR__ . "/inc/Comment.php";
+require_once __DIR__ . "/inc/Tag.php";
 
 $user = new User();
 $post = new Post();
 $category = new Category();
+$comments = new Comment();
+// $tags = new Tag();
+
 
 $cekLogin = $user->isLogin();
 

@@ -12,9 +12,11 @@ require_once "./views/layout/header-white.php";
 <div class="container-fluid">
     <div class="row">
         <div class="col-2 bg-dark sidebar py-3">
-
+            <a href="dashboard" class="btn btn-outline-success btn-block p-2 active">
+                <ion-icon name="stats"></ion-icon> Dashboard
+            </a>
             <a href="dashboard&p=post" class="btn btn-outline-success btn-block p-2 active">
-                <ion-icon name="paper"></ion-icon>Posts
+                <ion-icon name="paper"></ion-icon> Posts
             </a>
             <a href="dashboard&p=categories" class="btn btn-outline-success btn-block p-2 active">
                 <ion-icon name="pricetags"></ion-icon> Categories
@@ -34,13 +36,22 @@ require_once "./views/layout/header-white.php";
             $p = isset($_GET['p']) ? $_GET['p'] : "";
 
             if (empty($p)) {
-                $p = "post";
+                $p = "dashboard";
             }
             $p = filter_var($p, FILTER_SANITIZE_STRING);
             switch ($p) {
-                case "post":
+                case "dashboard":
                     ?>
-
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <h2>Dashboard</h2>
+                    <p>Selamat datang!</p>
+                </div>
+            </div>
+            <?php
+                break;
+            case "post":
+                ?>
             <div class="row mb-3">
                 <div class="col-md-6">
                     <a href="dashboard&p=post_add" class="btn btn-md btn-info">
@@ -197,10 +208,6 @@ require_once "./views/layout/header-white.php";
             case "post_del":
                 if (isset($_GET['id']) && !empty($_GET['id'])) {
                     $post->deletePost($_GET['id']);
-                    $message = "Berhasil menghapus post!";
-
-                    $this->setMessage($message);
-                    $_SESSION['message'] = $this->getMessage();
                 } else {
                     header("Location: dashboard");
                 }
@@ -219,7 +226,9 @@ require_once "./views/layout/header-white.php";
                     </div>
                 </div>
             </div>
-            <?php endif; ?>
+            <?php
+                    unset($_SESSION['message']);
+                endif; ?>
             <a href='dashboard&p=categories_add' class="btn btn-success mb-3">Create category</a>
             <table class="table table-bordered">
                 <thead>
@@ -244,7 +253,7 @@ require_once "./views/layout/header-white.php";
                         <td scope="row"><?php echo $value['nama']; ?></td>
                         <td scope="row"><?= $value['keterangan']; ?></td>
                         <td scope="row">
-                            <a href='dashboard' class='btn btn-info'>Show</a> | <a href='dashboard&p=categories_update&id=<?= $value['id']; ?>' class='btn btn-primary'>Edit</a> | <a href='dashboard&p=categories_delete&id=<?= $value['id']; ?>' class='btn btn-danger'>Delete</a></td>
+                            <a href='dashboard' class='btn btn-info'>Show</a> | <a href='dashboard&p=categories_update&id=<?= $value['id']; ?>' class='btn btn-primary'>Edit</a> | <a href='dashboard&p=categories_delete&id=<?= $value['id']; ?>' class='btn btn-danger' onclick="return confirm('Apakah kamu yakin ingin menghapus kategori ini?')">Delete</a></td>
                     </tr>
                     <?php
                             }
@@ -344,8 +353,23 @@ require_once "./views/layout/header-white.php";
                 break;
             case "members":
                 $data = $user->showMembers();
+                ?>
+            <h2>List Member</h2>
+            <?php
                 if (is_array($data)) {
                     $no = 0;
+                    if (isset($_SESSION['message'])) :
+                        ?>
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-success">
+                        <?= $_SESSION['message']; ?>
+                    </div>
+                </div>
+            </div>
+            <?php
+                        unset($_SESSION['message']);
+                    endif;
                     ?>
             <table class="table table-bordered">
                 <thead>
@@ -369,7 +393,7 @@ require_once "./views/layout/header-white.php";
                         <td><?= $value['email']; ?></td>
                         <td><?= $value['nama_lengkap']; ?></td>
                         <td><?= $value['nim']; ?></td>
-                        <td><a href='dashboard&p=member_edit&id=<?= $value['id']; ?>' class="btn btn-primary" style="color:white;">Edit</a> | <a href='dashboard&p=member_delete&id=<?= $value['id']; ?>' class="btn btn-danger" style="color:white;">Delete</a></td>
+                        <td><a href='dashboard&p=member_edit&id=<?= $value['id']; ?>' class="btn btn-primary" style="color:white;">Edit</a> | <a href='dashboard&p=member_delete&id=<?= $value['id']; ?>' class="btn btn-danger" style="color:white;" onclick="return confirm('Apakah kamu yakin ingin menghapus user ini?')">Delete</a></td>
                     </tr>
                     <?php
                             }
@@ -414,6 +438,7 @@ require_once "./views/layout/header-white.php";
                     <label for="exampleInputPassword2">Confirm Password</label>
                     <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password" name='password_confirm' maxlength='100' />
                 </div>
+                <input type="hidden" value="<?= $value['id']; ?>" name="id" />
                 <button type="submit" class="btn btn-primary" name="submit">Submit</button>
             </form>
             <?php
@@ -424,9 +449,68 @@ require_once "./views/layout/header-white.php";
                 $user->deleteMember($id);
                 break;
             case "comments":
-                ?>
+                $data = $comments->showComments();
+
+                if (isset($_SESSION['message'])) :
+                    ?>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="alert alert-success">
+                        <p><?= $_SESSION['message']; ?></p>
+                    </div>
+                </div>
+            </div>
+            <?php
+                    unset($_SESSION['message']);
+                endif;
+                if (!empty($data)) :
+                    $no = 1; ?>
+            <h2>List Comments</h2>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Komentar</th>
+                            <th>Judul Post</th>
+                            <th>Waktu</th>
+                            <th>Opsi</th>
+                        </tr>
+                        <?php foreach ($data as $comment) :
+                                    ?>
+                        <tr>
+                            <td><?= $no++; ?></td>
+                            <td><?= $comment['nama_lengkap']; ?></td>
+                            <td><?= substr($comment['body'], 0, 25); ?></td>
+                            <td><?= $comment['judul']; ?></td>
+                            <td><?= date('H:i:s d-m-Y', $comment['created_at']); ?></td>
+                            <td>
+                                <a href="blog&id=<?= $comment['post_id']; ?>&comment_id=<?= $comment['id']; ?>" class='btn btn-info mr-2 '>View</a> |
+                                <a href='dashboard&p=comments_delete&id=<?= $comment['id']; ?>' class='btn btn-danger' onclick='return confirm("Apakah kamu yakin ingin menghapus komentar tersebut?")'>Delete</a>
+                            </td>
+                        </tr>
+                        <?php endforeach;
+                                ?>
+                    </table>
+                </div>
+            </div>
+            <?php else :
+                    ?>
             <p>Belum ada komentar</p>
             <?php
+                endif;
+                break;
+            case "comments_delete":
+                if (!isset($_GET['id']) && empty($_GET['id'])) {
+                    header("Location: dashboard&p=comments");
+                }
+
+                if ($comments->deleteComment($_GET['id'])) {
+                    $comments->setMessage("Berhasil menghapus komentar!");
+                    $_SESSION['message'] = $comments->getMessage();
+                    header("Location: dashboard&p=comments");
+                }
                 break;
             case "logout":
                 $user->logout();
