@@ -78,7 +78,6 @@ class User extends Database
         $_SESSION['message'] = $this->getMessage();
 
         if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
-            // $this->pdo->closeConnection();                
             header("Location:dashboard");
         }
     }

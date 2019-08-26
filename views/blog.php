@@ -44,4 +44,43 @@ $values = $post->selectPost($idPost);
         endforeach;
         ?>
     </div>
+
+    <div class="comments mb-5">
+        <h2>Comments</h2>
+        <?php
+        $comment_data = $comments->showComments();
+        ?>
+        <?php if ($comment_data->num_rows == 0) : ?>
+        <p>Belum ada komentar</p>
+        <?php else : ?>
+        <?php foreach ($comments_data as $comment) : ?>
+        <div class="comment mb-5">
+            <h4 class="mb-3"><?= $comment['nama_lengkap']; ?></h4>
+            <small><em><?= time('H:i:s d-m-Y', $comment['created_at']); ?></em></small>
+            <p><?= $comment['body']; ?></p>
+        </div>
+        <?php endforeach; ?>
+        <?php endif; ?>
+        <div class="comment-box">
+            <?php if (!$cekLogin) : ?>
+            <p>You need to <a href='./login'>Login</a> comment</p>
+            <?php else : ?>
+            <form method="POST" action="">
+                <?php
+                    if (isset($_POST['kirim'])) :
+                        $comments->addComment();
+                    endif;
+                    ?>
+                <div class="form-group">
+                    <textarea name="body" id="body" rows="3" cols="120"></textarea>
+                    <input type="hidden" name="user_id" value="<?= $_SESSION['user_id']; ?>" />
+                    <input type="hidden" name="post_id" value="<?= $values['id']; ?>" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="kirim" id="kirim" class="btn btn-primary" />
+                </div>
+            </form>
+            <?php endif; ?>
+        </div>
+    </div>
 </div>

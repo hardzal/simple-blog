@@ -48,7 +48,7 @@ class Comment extends Database
 
             $stmt->execute();
 
-            return $stmt->fetchAll();
+            return $stmt;
         } catch (PDOException $err) {
             $message = "Error : " . $err->getMessage();
         }

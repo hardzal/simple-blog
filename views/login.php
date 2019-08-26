@@ -1,5 +1,5 @@
 <?php
-require_once "./layout/header-white.php";
+require_once "./views/layout/header-white.php";
 ?>
 
 <div class="container mt-5">
@@ -12,11 +12,22 @@ require_once "./layout/header-white.php";
             if (isset($_POST['submit'])) {
                 $user->login('email', 'password');
             }
+            if (isset($_SESSION['message'])) : ?>
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-danger">
+                        <?= $_SESSION['message']; ?>
+                    </div>
+                </div>
+            </div>
+            <?php
+                unset($_SESSION['message']);
+            endif;
             ?>
             <form method="POST" action="">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Username / Email address</label>
-                    <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username / Email" required>
+                    <input name="email" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username / Email" required>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>

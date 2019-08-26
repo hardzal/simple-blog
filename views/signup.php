@@ -1,4 +1,4 @@
-<?php include "./layout/header-white.php"; ?>
+<?php include "./views/layout/header-white.php"; ?>
 
 <div class="container mt-5">
     <div class="row">
@@ -11,6 +11,17 @@
                 if (isset($_POST['submit'])) {
                     $user->register();
                 }
+                if (isset($_SESSION['message'])) : ?>
+                <div class="row">
+                    <div class="col">
+                        <div class="alert alert-success">
+                            <?= $_SESSION['message']; ?>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                    unset($_SESSION['message']);
+                endif;
                 ?>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email address <span style="color:red;">*</span></label>
