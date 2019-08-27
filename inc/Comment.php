@@ -33,6 +33,7 @@ class Comment extends Database
 
         $this->setMessage($message);
         $_SESSION['message'] = $this->getMessage();
+        return false;
     }
 
     public function showComments()
@@ -85,6 +86,7 @@ class Comment extends Database
 
         $this->setMessage($message);
         $_SESSION['message'] = $this->getMessage();
+        return false;
     }
 
     public function updateComment($data)
@@ -133,5 +135,6 @@ class Comment extends Database
 
         $this->setMessage($message);
         $_SESSION['message'] = $this->getMessage();
+        return false;
     }
 }

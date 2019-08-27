@@ -47,7 +47,7 @@ Sebagai User
   - [x] CRUD posts
   - [x] CRUD users
   - [x] CRUD categories
-  - [ ] CRUD tags
+  - [x] CRUD comments
 - Searching
   - [ ] Pencarian data postingan blog
   - [ ] Pencarian data kategori per halaman

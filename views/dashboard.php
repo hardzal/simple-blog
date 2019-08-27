@@ -463,7 +463,7 @@ require_once "./views/layout/header-white.php";
             <?php
                     unset($_SESSION['message']);
                 endif;
-                if (!empty($data)) :
+                if ($data->rowCount()) :
                     $no = 1; ?>
             <h2>List Comments</h2>
             <div class="row">

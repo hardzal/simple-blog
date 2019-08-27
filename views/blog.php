@@ -48,17 +48,45 @@ $values = $post->selectPost($idPost);
     <div class="comments mb-5">
         <h2>Comments</h2>
         <?php
-        $comment_data = $comments->showComments();
+        if (isset($_SESSION['message'])) {
+            ?>
+        <div class="alert alert-success">
+            <?= $_SESSION['message']; ?>
+        </div>
+        <?php
+            unset($_SESSION['message']);
+        }
         ?>
-        <?php if ($comment_data->num_rows == 0) : ?>
+        <hr class="border-success mt-0" />
+        <?php
+        $comments_data = $comments->showComments();
+        if ($comments_data->rowCount() == 0) : ?>
         <p>Belum ada komentar</p>
-        <?php else : ?>
-        <?php foreach ($comments_data as $comment) : ?>
-        <div class="comment mb-5">
-            <h4 class="mb-3"><?= $comment['nama_lengkap']; ?></h4>
-            <small><em><?= time('H:i:s d-m-Y', $comment['created_at']); ?></em></small>
+        <?php else :
+            foreach ($comments_data->fetchAll() as $comment) : ?>
+        <div class=" comment mb-3">
+            <h5 class="mb-0">
+                <?= $comment['nama_lengkap']; ?>
+                <div class="float-right">
+                    <?php
+                            if (isset($_POST['hapus_comment']) && !empty($_POST['hapus_comment'])) {
+                                $id_comment = $_POST['comment_id'];
+                                if ($comments->deleteComment($id_comment)) {
+                                    echo "hello!!!";
+                                    header("Location: blog&id=" . $idPost);
+                                }
+                            }
+                            ?>
+                    <form method="POST" action="">
+                        <input type="hidden" value="<?= $comment['id']; ?>" name="comment_id" />
+                        <button type="submit" class="btn btn-danger mt-1" name="hapus_comment" onclick="return confirm('apakah kamu yakin ingin menghapus komentar ini?')" value=1><ion-icon name="trash"></ion-icon></button>
+                    </form>
+                </div>
+            </h5>
+            <small style='color:#aaa'><em><?= date('H:i:s d-m-Y', $comment['created_at']); ?></em></small>
             <p><?= $comment['body']; ?></p>
         </div>
+        <hr />
         <?php endforeach; ?>
         <?php endif; ?>
         <div class="comment-box">
@@ -68,7 +96,9 @@ $values = $post->selectPost($idPost);
             <form method="POST" action="">
                 <?php
                     if (isset($_POST['kirim'])) :
-                        $comments->addComment();
+                        if ($comments->addComment()) {
+                            header("Location: blog&id=" . $idPost);
+                        }
                     endif;
                     ?>
                 <div class="form-group">
