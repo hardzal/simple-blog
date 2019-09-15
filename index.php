@@ -18,7 +18,6 @@ $category = new Category();
 $comments = new Comment();
 // $tags = new Tag();
 
-
 $cekLogin = $user->isLogin();
 
 require_once __DIR__ . "/views/layout/meta.php";

@@ -1,5 +1,12 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+
 if (!defined('ACCESS')) exit; // direct access doesn't allowed
+
+require_once "./libraries/PHPMailer/PHPMailer.php";
+require_once "./libraries/PHPMailer/Exception.php";
+require_once "./libraries/PHPMailer/SMTP.php";
 
 class User extends Database
 {
@@ -26,6 +33,22 @@ class User extends Database
         } else {
             return false;
         }
+    }
+
+    public function emailExists($email)
+    {
+        $query = "SELECT count(*) FROM users WHERE email = :email";
+        $sql = $this->pdo->prepare($query);
+
+        $sql->bindParam(":email", $email);
+
+        $sql->execute();
+
+        if ($sql->fetchColumn() <= 0) {
+            return false;
+        }
+
+        return true;
     }
 
     public function logout()
@@ -82,10 +105,6 @@ class User extends Database
         }
     }
 
-    // TODO: Make changes this function 
-    // - Validation Registration
-    // - Updating Account
-    // - Showing Account Member
     public function register()
     {
         $validated = false;
@@ -123,10 +142,13 @@ class User extends Database
                 $rquery->execute();
 
                 if ($rquery->rowCount() > 0) {
-                    $message = "This username already exist";
+                    $message = "This username already exists";
+                } else if ($this->emailExists($email)) {
+                    $message = "This email already exists";
                 } else {
                     try {
-                        $query = "INSERT INTO users(id, username, password, email, level) VALUES (UUID_SHORT(), :username, :password, :email, :level)";
+                        $this->pdo->beginTransaction();
+                        $query = "INSERT INTO users(id, username, password, email, level, is_active) VALUES ('', :username, :password, :email, :level, :is_active)";
 
                         $rquery = $this->pdo->prepare($query);
 
@@ -134,12 +156,49 @@ class User extends Database
                             ':username' => $username,
                             ':password' => $password,
                             ':email' => $email,
-                            ':level' => $level
+                            ':level' => $level,
+                            ':is_active' => 0
                         );
+                        $token = $this->getToken();
 
-                        $rquery->execute($params);
-                        $message = "Your account was successfully created";
+                        $mail = new PHPMailer(true);
+
+                        $mail->Host = "smtp.gmail.com";
+                        $mail->isSMTP();
+                        $mail->SMTPAuth = true;
+
+                        $mail->Username = "langkahkita01@gmail.com";
+                        $mail->Password = "qwerty1070";
+
+                        $mail->SMTPSecure = "tls";
+                        $mail->Port = 587;
+                        $email_encode = base64_encode($email);
+                        $url = "localhost/projects/simple-blog/confirm&email=$email_encode&token=$token";
+                        $mail->isHTML(true);
+                        $mail->Subject = "Validation Account | BlogITC";
+                        $mail->Body = "
+                            Hello, Untuk mengaktifkan akun blogITC kamu harus mengaktivasinya dengan mengklik link konfirmasi berikut.
+                            <a href='$url'>klik di sini</a>.
+                            <br>
+                            Terima kasih.
+                        ";
+
+                        $mail->setFrom("langkahkita01@gmail.com", "Admin BlogITC");
+                        $mail->addAddress($email);
+
+                        if ($mail->send()) {
+                            $rquery->execute($params);
+                            $rquery->closeCursor();
+
+                            $this->pdo->query("INSERT INTO user_token(token, created_at, expired_at) VALUES('$token', now(), DATE_ADD(NOW(), INTERVAL 15 MINUTE))");
+                            $message = "Check your email to activated your account!";
+                        } else {
+                            $message = "Failed sending email.";
+                        }
+
+                        $this->pdo->commit();
                     } catch (PDOException $e) {
+                        $this->pdo->rollBack();
                         $message = "Error: " . $e->getMessage();
                     }
                 }
@@ -271,5 +330,48 @@ class User extends Database
 
         $this->setMessage($message);
         $_SESSION['message'] = $this->getMessage();
+    }
+
+    public function confirmEmail($token, $email)
+    {
+        try {
+            $this->pdo->beginTransaction();
+            $query = "SELECT count(*) FROM user_token WHERE token = :token AND expired_at > now()";
+
+            $sql = $this->pdo->prepare($query);
+
+            $sql->bindParam(":token", $token);
+
+            $sql->execute();
+
+            if ($sql->fetchColumn() > 0) {
+                $query = "DELETE FROM user_token WHERE token = '$token'";
+                $this->pdo->exec($query);
+                $query = "UPDATE users SET is_active = 1 WHERE email = '$email'";
+                $this->pdo->exec($query);
+                $this->pdo->commit();
+                $message = "Account succesfully confirmed. Please login";
+            } else {
+                echo $sql->num_rows;
+                $message = "Account failed to confirm. Please contact admin";
+            }
+        } catch (PDOException $e) {
+            $this->pdo->rollBack();
+            echo $e->getMessage();
+        }
+        $this->setMessage($message);
+        $_SESSION['message'] = $this->getMessage();
+    }
+
+    public function getToken()
+    {
+        $str = "QWERTYUIOPASDFGHHJKLZXCVBNMqwertyuioopasdfghjklzxcvbnm0987654321";
+
+        $str = str_shuffle($str);
+        $str = str_rot13($str);
+        $str = strrev($str);
+        $str = substr($str, 0, random_int(8, 64));
+
+        return $str;
     }
 }

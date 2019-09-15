@@ -40,7 +40,7 @@ Sebagai User
 - Authentication
   - [x] Login
   - [x] Signup
-  - [ ] Add Email Confirmation
+  - [x] Add Email Confirmation
   - [ ] Reset password
   - [ ] Remember me?
 - CRUD (CREATE, READ, UPDATE, DELETE)
