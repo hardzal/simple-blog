@@ -1,7 +1,4 @@
 <?php
-if (!isset($_GET['email']) && !isset($_GET['token'])) {
-    header("Location: ./home");
-}
 require_once "./views/layout/header-white.php";
 ?>
 
@@ -9,13 +6,11 @@ require_once "./views/layout/header-white.php";
     <div class="row">
         <div class="col-md-4 m-auto p-md-4 rounded form">
             <div>
-                <h2 class="text-center">Reset Password</h2>
+                <h2 class="text-center">Forgot Password</h2>
             </div>
             <?php
             if (isset($_POST['submit'])) {
-                $email = $_GET['email'];
-                $token = $_GET['token'];
-                $user->resetPassword($email, $token);
+                $user->forgotPassword($_POST['email']);
             }
             if (isset($_SESSION['message'])) : ?>
                 <div class="row">
@@ -31,12 +26,8 @@ require_once "./views/layout/header-white.php";
             ?>
             <form method="POST" action="">
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Reset Password</label>
-                    <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required />
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Confirm Reset Password</label>
-                    <input name="confirm_password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Confirm Password" required />
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input name="email" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" required>
                 </div>
                 <p>
                     Login? Click

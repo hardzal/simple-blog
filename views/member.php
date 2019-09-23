@@ -1,16 +1,16 @@
 <?php
 if (!$cekLogin) {
     echo "<script>alert('Anda belum melakukan login!')</script>";
-    header("Location: login");
+    header("Location: ./login");
 } else {
     if (!$user->checkLevel()) {
         header("Location: home");
     }
     if ($user->checkLevel() == 'A') {
-        header("Location: dashboard");
+        header("Location: ./dashboard");
     }
 }
-require_once "./layout/header-white.php";
+require_once "./views/layout/header-white.php";
 ?>
 
 <div class="container-fluid">
@@ -34,38 +34,38 @@ require_once "./layout/header-white.php";
                     $user = new User();
                     $values = $user->showData();
                     ?>
-            <h2>Settings</h2>
-            <form method="post" action="">
+                    <h2>Settings</h2>
+                    <form method="post" action="">
+                        <?php
+                            if (isset($_POST['submit'])) {
+                                $user->updateData();
+                            }
+                            ?>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" class="form-control" name="email" value="<?= $values['email']; ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">Password</label>
+                            <input type="password" class="form-control" placeholder="New password" name="new_password"><br>
+                            <label for="confirmNewPassword">Confirm Password</label>
+                            <input type="password" class="form-control" placeholder="Confirm password" name="confirm_password">
+                        </div>
+                        <div class="form-group">
+                            <label for="nama">Nama Lengkap</label>
+                            <input type="text" class="form-control" value="<?= $values['nama_lengkap']; ?>" name="nama">
+                        </div>
+                        <div class="form-group">
+                            <label for="nim">NIM</label>
+                            <input type="text" class="form-control" value="<?= $values['nim']; ?>" name="nim">
+                            <input type="hidden" value="<?= $_SESSION['user_id']; ?>" name="id" />
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Submit" name="submit">
+                    </form>
                 <?php
-                    if (isset($_POST['submit'])) {
-                        $user->updateData();
-                    }
-                    ?>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" name="email" value="<?= $values['email']; ?>">
-                </div>
-                <div class="form-group">
-                    <label for="newPassword">Password</label>
-                    <input type="password" class="form-control" placeholder="New password" name="new_password"><br>
-                    <label for="confirmNewPassword">Confirm Password</label>
-                    <input type="password" class="form-control" placeholder="Confirm password" name="confirm_password">
-                </div>
-                <div class="form-group">
-                    <label for="nama">Nama Lengkap</label>
-                    <input type="text" class="form-control" value="<?= $values['nama_lengkap']; ?>" name="nama">
-                </div>
-                <div class="form-group">
-                    <label for="nim">NIM</label>
-                    <input type="text" class="form-control" value="<?= $values['nim']; ?>" name="nim">
-                    <input type="hidden" value="<?= $_SESSION['user_id']; ?>" name="id" />
-                </div>
-                <input type="submit" class="btn btn-primary" value="Submit" name="submit">
-            </form>
-            <?php
-                break;
-        }
-        ?>
+                    break;
+            }
+            ?>
         </div>
     </div>
 </div>

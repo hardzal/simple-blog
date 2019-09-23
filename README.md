@@ -30,8 +30,8 @@ Sebagai Admin
 
 Sebagai User
 
-    email    : firstmember@gmail.com
-    password : 1234567
+    email    : rikakokoe@gmail.com
+    password : 987654321
 
 -------------------------------------------------------------------
 
@@ -41,8 +41,8 @@ Sebagai User
   - [x] Login
   - [x] Signup
   - [x] Add Email Confirmation
-  - [ ] Reset password
-  - [ ] Remember me?
+  - [x] Reset password
+  - [ ] Remember me
 - CRUD (CREATE, READ, UPDATE, DELETE)
   - [x] CRUD posts
   - [x] CRUD users

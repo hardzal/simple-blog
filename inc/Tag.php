@@ -5,4 +5,16 @@ class Tag extends Database
     {
         parent::__construct();
     }
+
+    public function getAllTags()
+    { }
+
+    public function getTag()
+    { }
+
+    public function updateTag()
+    { }
+
+    public function deleteTag()
+    { }
 }

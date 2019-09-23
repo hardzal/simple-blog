@@ -159,34 +159,12 @@ class User extends Database
                             ':level' => $level,
                             ':is_active' => 0
                         );
+
                         $token = $this->getToken();
 
-                        $mail = new PHPMailer(true);
+                        $confirmEmail = $this->sendEmail('confirmEmail', $email, $token);
 
-                        $mail->Host = "smtp.gmail.com";
-                        $mail->isSMTP();
-                        $mail->SMTPAuth = true;
-
-                        $mail->Username = "langkahkita01@gmail.com";
-                        $mail->Password = "qwerty1070";
-
-                        $mail->SMTPSecure = "tls";
-                        $mail->Port = 587;
-                        $email_encode = base64_encode($email);
-                        $url = "localhost/projects/simple-blog/confirm&email=$email_encode&token=$token";
-                        $mail->isHTML(true);
-                        $mail->Subject = "Validation Account | BlogITC";
-                        $mail->Body = "
-                            Hello, Untuk mengaktifkan akun blogITC kamu harus mengaktivasinya dengan mengklik link konfirmasi berikut.
-                            <a href='$url'>klik di sini</a>.
-                            <br>
-                            Terima kasih.
-                        ";
-
-                        $mail->setFrom("langkahkita01@gmail.com", "Admin BlogITC");
-                        $mail->addAddress($email);
-
-                        if ($mail->send()) {
+                        if ($confirmEmail) {
                             $rquery->execute($params);
                             $rquery->closeCursor();
 
@@ -352,13 +330,98 @@ class User extends Database
                 $this->pdo->commit();
                 $message = "Account succesfully confirmed. Please login";
             } else {
-                echo $sql->num_rows;
-                $message = "Account failed to confirm. Please contact admin";
+                $message = "Account failed to confirm. Token Expired";
             }
         } catch (PDOException $e) {
             $this->pdo->rollBack();
-            echo $e->getMessage();
+            $message = $e->getMessage();
         }
+        $this->setMessage($message);
+        $_SESSION['message'] = $this->getMessage();
+    }
+
+    public function forgotPassword($email)
+    {
+        try {
+            $this->pdo->beginTransaction();
+            $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+            $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+
+            if (!$email) {
+                $message = "Email not valid!";
+                throw new Exception("Email not valid!");
+            }
+
+            $query = "SELECT * FROM " . $this->table . " WHERE email = :email";
+
+            $sql = $this->pdo->prepare($query);
+            $sql->bindParam(":email", $email);
+
+            $sql->execute();
+
+            if ($sql->fetchColumn() > 0) {
+                $token = $this->getToken();
+
+                $resetPassword = $this->sendEmail('resetPassword', $email, $token);
+
+                if ($resetPassword) {
+                    $this->pdo->query("INSERT INTO user_token(token, created_at, expired_at) VALUES('$token', now(), DATE_ADD(NOW(), INTERVAL 15 MINUTE))");
+
+                    $message = "Check your email to reset password";
+                } else {
+                    $message = "Failed to send your email";
+                }
+            } else {
+                $message = "Email not found!";
+            }
+            $this->pdo->commit();
+        } catch (PDOException $er) {
+            $message = $er->getMessage();
+        }
+
+        $this->setMessage($message);
+        $_SESSION['message'] = $this->getMessage();
+    }
+
+    public function resetPassword($email, $token)
+    {
+        try {
+            $this->pdo->beginTransaction();
+
+            $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+            $confirm_password = filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING);
+
+            if ($password != $confirm_password) {
+                $message = "Password not same!";
+            } else if (strlen($password) < 8 && strlen($confirm_password) < 8) {
+                $message = "Password too short, minimum 8 character";
+            } else {
+                $email = base64_decode($email);
+                $query = "SELECT count(*) FROM user_token WHERE token = :token AND expired_at > now()";
+
+                $sql = $this->pdo->prepare($query);
+
+                $sql->bindParam(":token", $token);
+
+                $sql->execute();
+                $password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
+                if ($sql->fetchColumn() > 0) {
+                    $query = "DELETE FROM user_token WHERE token = '$token'";
+                    $this->pdo->exec($query);
+                    $query = "UPDATE users SET password = :password WHERE email = :email";
+                    $sql = $this->pdo->prepare($query);
+                    $sql->bindParam(":password", $password);
+                    $sql->bindParam(":email", $email);
+
+                    $sql->execute();
+
+                    $message = "Account succesfully reset password. Please login";
+                } else {
+                    $message = "Account failed to reset. Token Expired";
+                }
+            }
+            $this->pdo->commit();
+        } catch (PDOException $er) { }
         $this->setMessage($message);
         $_SESSION['message'] = $this->getMessage();
     }
@@ -373,5 +436,48 @@ class User extends Database
         $str = substr($str, 0, random_int(8, 64));
 
         return $str;
+    }
+
+    public function sendEmail($type, $email, $token)
+    {
+        $mail = new PHPMailer(true);
+
+        $mail->Host = "smtp.gmail.com";
+        $mail->isSMTP();
+        $mail->SMTPAuth = true;
+
+        $mail->Username = "langkahkita01@gmail.com";
+        $mail->Password = "qwerty1070";
+
+        $mail->SMTPSecure = "tls";
+        $mail->Port = 587;
+        $email_encode = base64_encode($email);
+        $mail->isHTML(true);
+
+
+        if ($type == 'confirmEmail') {
+            $url = "localhost/projects/simple-blog/confirm&email=$email_encode&token=$token";
+            $mail->Subject = "Validation Account | BlogITC";
+            $mail->Body = "
+                Hello, Untuk mengaktifkan akun blogITC kamu harus mengaktivasinya dengan mengklik link konfirmasi berikut.
+                <a href='$url'>klik di sini</a>.
+                <br>
+                Terima kasih.
+            ";
+        } else if ($type == 'resetPassword') {
+            $url = "localhost/projects/simple-blog/resetPassword&email=$email_encode&token=$token";
+            $mail->Subject = "Reset Password Account | BlogITC";
+            $mail->Body = "
+                Hello, Untuk megganti password akun blogITC kamu harus mengklik link reset password berikut.
+                <a href='$url'>klik di sini</a>.
+                <br>
+                Terima kasih.
+            ";
+        }
+
+        $mail->setFrom("langkahkita01@gmail.com", "Admin BlogITC");
+        $mail->addAddress($email);
+
+        return $mail->send();
     }
 }

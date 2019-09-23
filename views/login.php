@@ -13,13 +13,13 @@ require_once "./views/layout/header-white.php";
                 $user->login('email', 'password');
             }
             if (isset($_SESSION['message'])) : ?>
-            <div class="row">
-                <div class="col">
-                    <div class="alert alert-danger">
-                        <?= $_SESSION['message']; ?>
+                <div class="row">
+                    <div class="col">
+                        <div class="alert alert-success">
+                            <?= $_SESSION['message']; ?>
+                        </div>
                     </div>
                 </div>
-            </div>
             <?php
                 unset($_SESSION['message']);
             endif;
@@ -33,6 +33,10 @@ require_once "./views/layout/header-white.php";
                     <label for="exampleInputPassword1">Password</label>
                     <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
                 </div>
+                <p>
+                    Forgot Password? Click
+                    <a href='./forgotPassword'>here</a>
+                </p>
                 <button type="submit" class="btn btn-primary" name="submit">Submit</button>
             </form>
         </div>
@@ -40,5 +44,5 @@ require_once "./views/layout/header-white.php";
 </div>
 
 <script src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>

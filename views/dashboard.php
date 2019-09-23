@@ -4,7 +4,7 @@ if (!$cekLogin) {
     header("Location: login");
 }
 if ($user->checkLevel() == 'U') {
-    header("Location: member");
+    header("Location: ./member");
 }
 require_once "./views/layout/header-white.php";
 ?>
