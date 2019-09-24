@@ -1,4 +1,9 @@
-<?php include "./views/layout/header-white.php"; ?>
+<?php
+if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+    header("Location: ./home");
+}
+include "./views/layout/header-white.php";
+?>
 
 <div class="container mt-5">
     <div class="row">
@@ -12,13 +17,13 @@
                     $user->register();
                 }
                 if (isset($_SESSION['message'])) : ?>
-                <div class="row">
-                    <div class="col">
-                        <div class="alert alert-success">
-                            <?= $_SESSION['message']; ?>
+                    <div class="row">
+                        <div class="col">
+                            <div class="alert alert-success">
+                                <?= $_SESSION['message']; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
                 <?php
                     unset($_SESSION['message']);
                 endif;

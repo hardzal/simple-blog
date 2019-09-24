@@ -438,6 +438,9 @@ class User extends Database
         return $str;
     }
 
+    public function rememberMe()
+    { }
+
     public function sendEmail($type, $email, $token)
     {
         $mail = new PHPMailer(true);
