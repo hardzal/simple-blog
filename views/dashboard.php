@@ -7,6 +7,7 @@ if ($user->checkLevel() == 'U') {
     header("Location: ./member");
 }
 require_once "./views/layout/header-white.php";
+echo $_COOKIE['login'];
 ?>
 
 <div class="container-fluid">

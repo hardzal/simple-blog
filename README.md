@@ -31,7 +31,7 @@ Sebagai Admin
 Sebagai User
 
     email    : rikakokoe@gmail.com
-    password : 987654321
+    password : 123456789
 
 -------------------------------------------------------------------
 
@@ -48,26 +48,5 @@ Sebagai User
   - [x] CRUD users
   - [x] CRUD categories
   - [x] CRUD comments
-- Searching
-  - [ ] Pencarian data postingan blog
-  - [ ] Pencarian data kategori per halaman
-  - [ ] Pencarian data member per halaman
-- Sorting
-  - [ ] Pengurutan data postingan blog
-  - [ ] Pengurutan data kategori per halaman
-  - [ ] Pengurutan data member per halaman
-- Pagination
-  - [ ] Menampilkan sebagian postingan blog per halaman
-  - [ ] Menampilkan sebagian kategori per halaman
-  - [ ] Menampilkan sebagian member per halaman
-- Validation
-  - [ ] Form Login Validation
-  - [ ] Form Signup Validation
-  - [ ] Form CRUD Validation
-- Exporting
-  - [ ] mengekspor data member
-  - [ ] mengekspor data post
-  - [ ] mengekspor data kategori
-  - [ ] mengekspor semua data
 
 ### Rewrite to Laravel [click here](https://github.com/hardzal/larablog)

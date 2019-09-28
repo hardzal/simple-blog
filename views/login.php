@@ -10,6 +10,8 @@ require_once "./views/layout/header-white.php";
             </div>
             <?php
             if (isset($_POST['submit'])) {
+                // $rememberMe = isset($_POST['rememberMe']) ? $_POST['rememberMe'] : null;
+                // $user->rememberMe($rememberMe);
                 $user->login('email', 'password');
             }
             if (isset($_SESSION['message'])) : ?>
@@ -32,6 +34,9 @@ require_once "./views/layout/header-white.php";
                 <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
                     <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" name="rememberMe" value="" />Remember me
                 </div>
                 <p>
                     Forgot Password? Click

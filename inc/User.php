@@ -73,6 +73,7 @@ class User extends Database
         }
 
         if ($validated == true) {
+
             $query = "SELECT * FROM users WHERE username=:username OR email=:email";
             $qtmp = $this->pdo->prepare($query);
 
@@ -438,8 +439,14 @@ class User extends Database
         return $str;
     }
 
-    public function rememberMe()
-    { }
+    public function rememberMe($value)
+    {
+        if ($value == null) {
+            setcookie("login", "");
+        } else {
+            setcookie("login", $value, time() + 600);
+        }
+    }
 
     public function sendEmail($type, $email, $token)
     {
